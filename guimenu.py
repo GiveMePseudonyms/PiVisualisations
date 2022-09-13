@@ -21,6 +21,10 @@ window = tkinter.Tk()
 
 
 def entry_point():
+    """
+    Build the main GUI tool which can be used to choose which visualiser you want to see.
+    """
+
     screenwidth = window.winfo_screenwidth()
     screenheight = window.winfo_screenheight()
 
@@ -77,30 +81,25 @@ def run_pixel_visualiser():
     pixel_visualiser = PixelVisualiser()
     pixel_visualiser.main_loop()
 
-
 def run_turtle_visualiser():
     if not GLOBAL_keep_root_window:
         window.destroy()
     turtle_visualiser = TurtleVisualiser()
-
 
 def run_spiral_visualiser():
     if not GLOBAL_keep_root_window:
         window.destroy()
     spiral_visualiser = SpiralVisualiser()
 
-
 def run_waveform_visualiser():
     if not GLOBAL_keep_root_window:
         window.destroy()
     waveform_visualiser = WaveformVisualiser()
 
-
 def run_sandpile_visualiser():
     if not GLOBAL_keep_root_window:
         window.destroy()
     sandpile_visualiser = SandpileVisualiser()
-
 
 def run_web_visualiser():
     if not GLOBAL_keep_root_window:
