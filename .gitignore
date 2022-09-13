@@ -56,3 +56,6 @@ outputs/Web/10000, rand colours and offset, 100 transp.png
 outputs/Web/mint.png
 outputs/Web/web visualiser screenshot.png
 .DS_Store
+.idea/
+.gitignore
+
