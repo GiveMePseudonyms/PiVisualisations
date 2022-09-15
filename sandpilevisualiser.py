@@ -1,12 +1,12 @@
 import pygame
 from sandpile_colour_schemes import colour_schemes as cs
 
-GLOBAL_window_w = 1200
-GLOBAL_window_h = 1200
+WINDOW_W = 1200
+WINDOW_H = 1200
 
-GLOBAL_bg_colour = (21, 24, 33)
+BG_COLOUR = (21, 24, 33)
 
-GLOBAL_colour_scheme = "sandyboi"
+COLOUR_SCHEME = "sandyboi"
 
 
 class SandpileVisualiser:
@@ -15,21 +15,21 @@ class SandpileVisualiser:
         pygame.init()
 
         pygame.display.set_caption("Sandpile Visualiser")
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
         self.centre_weight = 31415
         self.pixel_size = 6
 
         self.draw_call_counter = 0
 
-        self.rows = int(GLOBAL_window_h / self.pixel_size)
-        self.cols = int(GLOBAL_window_w / self.pixel_size)
+        self.rows = int(WINDOW_H / self.pixel_size)
+        self.cols = int(WINDOW_W / self.pixel_size)
 
         # make a 2d array for the grid of window size, all containing a 0
         self.grid = [[0] * self.cols for _ in range(self.rows)]
 
-        self.colour_scheme = cs[GLOBAL_colour_scheme]
+        self.colour_scheme = cs[COLOUR_SCHEME]
 
         self.main_loop()
 
@@ -47,7 +47,7 @@ class SandpileVisualiser:
         print("Finished setting up. Starting simulation.")
 
         counter = 0
-        ct = 20
+        count_target = 20
 
         while True:
             for x in range(self.rows):
@@ -61,7 +61,7 @@ class SandpileVisualiser:
                 break
 
             counter += 1
-            if counter == ct and running:
+            if counter == count_target and running:
                 counter = 0
                 self.update_display()
 
@@ -97,7 +97,7 @@ class SandpileVisualiser:
                                      pygame.Rect(x * self.pixel_size, y * self.pixel_size, self.pixel_size,
                                                  self.pixel_size))
                 elif self.grid[x][y] == 0:
-                    pygame.draw.rect(self.screen, GLOBAL_bg_colour,
+                    pygame.draw.rect(self.screen, BG_COLOUR,
                                      pygame.Rect(x * self.pixel_size, y * self.pixel_size, self.pixel_size,
                                                  self.pixel_size))
         self.draw_call_counter += 1

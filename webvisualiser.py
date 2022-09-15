@@ -23,18 +23,18 @@ DONE
 4. add a tiny bit of randomness to each end pos so the lines don't overlap completely?
 """
 
-GLOBAL_window_w = 1200
-GLOBAL_window_h = 1200
+WINDOW_W = 1200
+WINDOW_H = 1200
 
-GL_font_size = 30
-GL_target = 10000
+FONT_SIZE = 30
+TARGET = 10000
 
-GL_rand_offset_ub = 20
-GL_rand_offset_lb = 0
+RANDOM_OFFSET_UPPER_BOUND = 20
+RANDOM_OFFSET_LOWER_BOUND = 0
 
-GL_palette = "peach and purple"
+COLOUR_PALETTE = "peach and purple"
 
-GL_rand_colours = False
+USE_RANDOM_COLOURS = False
 
 
 def update_screen():
@@ -48,8 +48,8 @@ class WebVisualiser:
         pygame.init()
 
         pygame.display.set_caption("Web Visualiser")
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
         self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
 
@@ -61,7 +61,7 @@ class WebVisualiser:
         self.main_loop()
 
     def main_loop(self):
-        NumberObject.fontSize = GL_font_size
+        NumberObject.fontSize = FONT_SIZE
         n_0 = NumberObject("0", 10, 10, (255, 255, 255))
         n_1 = NumberObject("1", 30, 10, (255, 255, 255))
         n_2 = NumberObject("2", 50, 10, (255, 255, 255))
@@ -89,8 +89,8 @@ class WebVisualiser:
         n_list = []
         n_list.extend((n_0, n_1, n_2, n_3, n_4, n_5, n_6, n_7, n_8, n_9))
 
-        centre_x = GLOBAL_window_w / 2
-        centre_y = GLOBAL_window_h / 2
+        centre_x = WINDOW_W / 2
+        centre_y = WINDOW_H / 2
         radius = 500
         theta = math.radians(36)
 
@@ -123,19 +123,19 @@ class WebVisualiser:
         number_filter = filter(str.isdigit, pi_string)
         pi_string = "".join(number_filter)
 
-        palette = turtle_colour_palette_dictionaries.palettes_dictionary[GL_palette]
+        palette = turtle_colour_palette_dictionaries.palettes_dictionary[COLOUR_PALETTE]
 
         counter = 0
         update_interval = 1000
         for i in range(0, len(pi_string)):
-            if counter == GL_target:
+            if counter == TARGET:
                 print("hit target")
                 break
             if i != len(pi_string):
-                surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+                surface = pygame.Surface((WINDOW_W, WINDOW_H))
                 surface.set_alpha(10)
-                rand_offset = random.uniform(GL_rand_offset_lb, GL_rand_offset_ub)
-                if GL_rand_colours:
+                rand_offset = random.uniform(RANDOM_OFFSET_LOWER_BOUND, RANDOM_OFFSET_UPPER_BOUND)
+                if USE_RANDOM_COLOURS:
                     r = random.uniform(0, 255)
                     g = random.uniform(0, 255)
                     b = random.uniform(0, 255)
@@ -156,7 +156,7 @@ class WebVisualiser:
                 if (counter % update_interval) == 0:
                     update_screen()
             counter += 1
-            print(f"{counter}/{GL_target}")
+            print(f"{counter}/{TARGET}")
 
         pygame.image.save(self.screen, "web visualiser screenshot.png")
 

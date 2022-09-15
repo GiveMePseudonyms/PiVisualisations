@@ -4,40 +4,41 @@ import pygame
 from pygame.math import Vector2
 
 UP = Vector2(0, -1)
-GLOBAL_window_h = 1400
-GLOBAL_window_w = 1400
+WINDOW_H = 1400
+WINDOW_W = 1400
 
-GL_adjusted_window_h = GLOBAL_window_h * 3
-GL_adjusted_window_w = GLOBAL_window_w * 3
+ADJUSTED_WINDOW_H = WINDOW_H * 3
+ADJUSTED_WINDOW_W = WINDOW_W * 3
 
-GLOBAL_bg_colour = None
+BG_COLOUR = None
 
-GLOBAL_use_frame_skip = True
+USE_FRAME_SKIP = True
 
 
 def set_caption(caption):
     pygame.display.set_caption(caption)
 
-
 def get_rotation_vector(angle):
+    #Convert degree-based angle to vector
     radians = angle * (math.pi / 180)
     rotation_vector = Vector2(math.cos(radians), math.sin(radians))
     return rotation_vector
 
 
 class Hare:
-    GLOBAL_frame_skip = 1000000
-    GLOBAL_frame_counter = 1
-    num_draw_calls = 0
+    FRAME_SKIP = 1000000
+    FRAME_COUNTER = 1
+    NUM_DRAW_CALLS = 0
 
     def __init__(self, target):
         pygame.init()
+
         self.target = target
 
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
 
-        self.surface = pygame.Surface((GL_adjusted_window_w, GL_adjusted_window_h))
-        self.trsurface = pygame.Surface((GL_adjusted_window_w, GL_adjusted_window_h), pygame.SRCALPHA)
+        self.surface = pygame.Surface((ADJUSTED_WINDOW_W, ADJUSTED_WINDOW_H))
+        self.trsurface = pygame.Surface((ADJUSTED_WINDOW_W, ADJUSTED_WINDOW_H), pygame.SRCALPHA)
 
         self.direction = Vector2(UP)
 
@@ -88,8 +89,8 @@ class Hare:
         else:
             pygame.draw.aaline(self.surface, self.line_colour, p1, p2, self.aablend)
 
-        if GLOBAL_use_frame_skip:
-            if self.GLOBAL_frame_counter >= self.GLOBAL_frame_skip:
+        if USE_FRAME_SKIP:
+            if self.GLOBAL_frame_counter >= self.FRAME_SKIP:
                 if transparency != 0:
                     self.scale_image()
                 else:
@@ -110,8 +111,8 @@ class Hare:
         else:
             pygame.draw.line(self.surface, self.line_colour, p1, p2, self.line_width)
 
-        if GLOBAL_use_frame_skip:
-            if self.GLOBAL_frame_counter >= self.GLOBAL_frame_skip:
+        if USE_FRAME_SKIP:
+            if self.GLOBAL_frame_counter >= self.FRAME_SKIP:
                 if transparency != 0:
                     self.scale_image()
                 else:
