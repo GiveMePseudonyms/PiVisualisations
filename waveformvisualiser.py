@@ -3,8 +3,8 @@ import turtle_colour_palette_dictionaries
 import math
 import perlin
 
-GLOBAL_window_w = 1200
-GLOBAL_window_h = 1200
+WINDOW_W = 1200
+WINDOW_H = 1200
 
 
 def update_screen():
@@ -18,8 +18,8 @@ class WaveformVisualiser:
         pygame.init()
 
         pygame.display.set_caption("Waveform Visualiser")
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
         self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
 
@@ -62,7 +62,7 @@ class WaveformVisualiser:
 
             colour = turtle_colour_palette_dictionaries.starfield[digit]
             y = math.cos(int(digit)) * 3
-            if x >= (GLOBAL_window_w - self.edge_margin):
+            if x >= (WINDOW_W - self.edge_margin):
                 x = self.edge_margin
                 y_offset += self.offset
             pygame.draw.circle(self.screen, colour, (x, y + y_offset), 2, 2)

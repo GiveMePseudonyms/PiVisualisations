@@ -5,24 +5,6 @@ import turtle_colour_palette_dictionaries
 import math
 from numberobject import NumberObject
 
-"""
-TO-DO:
-
-"""
-"""
-DONE
-2. add transparency to lines.
-    make new surface for each line so they blend nicely.
-
-1. make lines different colours depending on start and end number colour. 
-    Can I do this as a gradient?
-
-3. the lines intersect the numbers at the top since they are aiming for the top left of the number rect.
-    I can fix this by making a target coord with a smaller radius and centred rect.
-
-4. add a tiny bit of randomness to each end pos so the lines don't overlap completely?
-"""
-
 WINDOW_W = 1200
 WINDOW_H = 1200
 
