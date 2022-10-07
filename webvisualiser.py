@@ -21,7 +21,7 @@ USE_RANDOM_COLOURS = False
 
 def update_screen():
     pygame.display.flip()
-
+    
 
 class WebVisualiser:
 

@@ -29,33 +29,33 @@ import utils
 WINDOW_W = 800
 WINDOW_H = 800
 
-WAIT_UNTIL_DONE = True
-FRAME_SKIP_INTERVAL = 10000
+WAIT_UNTIL_DONE = True #never implemented, remove from settings options?
+FRAME_SKIP_INTERVAL = 10000 #''
 
-TARGET = 1000000
+# TARGET = 1000000
 
-MOVE_DISTANCE = 0.8
+# MOVE_DISTANCE = 0.8
 
-OUTPUT_FILENAME = "screenshot"
+OUTPUT_FILENAME = "screenshot" #never implemented, remove
 
-DIGIT_IS_COLOUR = False
-DIGIT_COLOUR_PALETTE = "starfield"
+# DIGIT_IS_COLOUR = False
+# DIGIT_COLOUR_PALETTE = "starfield"
 
-CYCLE_COLOURS = True
-CYCLE_PALETTE = "cy cherry blossom"
-CYCLE_CHANGE_RATE = 0.001
+# self.settings['cycle colours'] = True
+# self.settings['cycle palette'] = "cy cherry blossom"
+# self.settings['cycle change rate'] = 0.001
 
-STATIC_COLOURS = False
-PALETTE = "blue autumn"
+# self.settings['static colours'] = False
+# self.settings['palette'] = "blue autumn"
 
-ADD_RANDOMNESS_TO_COLOUR = True
+# self.settings['add randomness to colour'] = True
 
-BG_COLOUR = "space black"
+# self.settings['bg colour'] = "space black"
 
-DIGIT_IS_PEN_SIZE = False
-DIPS_SCALE_FACTOR = 1
+# self.settings['digit is pen size'] = False
+# self.settings['digit pen size scale factor'] = 1
 
-PEN_SIZE = 0.1
+# self.settings['pen size'] = 0.1
 TRANSPARENCY = 0
 
 ANGLE_DICTIONARY = {
@@ -73,22 +73,23 @@ ANGLE_DICTIONARY = {
 
 
 class TurtleVisualiser:
-    def __init__(self):
+    def __init__(self, settings):
+        self.settings = settings
         self.clock = pygame.time.Clock()
-        self.hare = hare.Hare(TARGET)
+        self.hare = hare.Hare(self.settings['target'])
         self.main_loop()
 
     def main_loop(self):
         # pr = cProfile.Profile()
 
         self.hare.move_to(2050, 2050)
-        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[BG_COLOUR])
+        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
         self.hare.line_colour = (0, 0, 0)
-        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[BG_COLOUR])
-        self.hare.line_width = PEN_SIZE
+        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
+        self.hare.line_width = self.settings['pen size']
 
-        if CYCLE_COLOURS:
-            colour_palette = turtle_colour_palette_dictionaries.palettes_dictionary[CYCLE_PALETTE]
+        if self.settings['cycle colours']:
+            colour_palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['cycle palette']]
             r = colour_palette["r"]
             g = colour_palette["g"]
             b = colour_palette["b"]
@@ -111,25 +112,25 @@ class TurtleVisualiser:
         number_filter = filter(str.isdigit, pi_string)
         pi_string = "".join(number_filter)
 
-        if DIGIT_IS_COLOUR:
-            palette = turtle_colour_palette_dictionaries.palettes_dictionary[DIGIT_COLOUR_PALETTE]
+        if self.settings['digit is colour']:
+            palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']]
 
         self.hare.trsurface.set_alpha(TRANSPARENCY)
 
         start_time = t.time()
         for digit in pi_string:
 
-            if counter >= TARGET:
+            if counter >= self.settings['target']:
                 break
 
-            if DIGIT_IS_COLOUR:
+            if self.settings['digit is colour']:
                 self.hare.line_colour = palette[digit]
 
-            if DIGIT_IS_PEN_SIZE:
-                self.hare.line_width = int(digit) * DIPS_SCALE_FACTOR
+            if self.settings['digit is pen size']:
+                self.hare.line_width = int(digit) * self.settings['digit pen size scale factor']
 
-            if CYCLE_COLOURS and not STATIC_COLOURS:
-                if not DIGIT_IS_COLOUR:
+            if self.settings['cycle colours'] and not self.settings['static colours']:
+                if not self.settings['digit is colour']:
                     if r >= 255:
                         r_sign = "negative"
                     elif r <= 0:
@@ -146,27 +147,27 @@ class TurtleVisualiser:
                         b_sign = "positive"
 
                     if r_sign == "positive":
-                        r += CYCLE_CHANGE_RATE
+                        r += self.settings['cycle change rate']
                     else:
-                        r -= CYCLE_CHANGE_RATE
+                        r -= self.settings['cycle change rate']
 
                     if g_sign == "positive":
-                        g += CYCLE_CHANGE_RATE
+                        g += self.settings['cycle change rate']
                     else:
-                        g -= CYCLE_CHANGE_RATE
+                        g -= self.settings['cycle change rate']
 
                     if b_sign == "positive":
-                        b += CYCLE_CHANGE_RATE
+                        b += self.settings['cycle change rate']
                     else:
-                        b -= CYCLE_CHANGE_RATE
+                        b -= self.settings['cycle change rate']
 
                     self.hare.line_colour = (r, g, b)
 
             angle = ANGLE_DICTIONARY[digit]
 
             p1 = self.hare.position
-            p2 = self.hare.calculate_p2(p1, angle, MOVE_DISTANCE)
-            if not DIGIT_IS_PEN_SIZE:
+            p2 = self.hare.calculate_p2(p1, angle, self.settings['move distance'])
+            if not self.settings['digit is pen size']:
                 self.hare.draw_aaline(p1, p2, TRANSPARENCY)
             else:
                 self.hare.draw_line(p1, p2, TRANSPARENCY)
@@ -183,7 +184,7 @@ class TurtleVisualiser:
         finish_time = t.time()
         elapsed = (finish_time - start_time)
         elapsed = utils.round_to(elapsed, "2")
-        print(f"{TARGET} lines drawn in {elapsed} seconds")
+        print(f"{self.settings['target']} lines drawn in {elapsed} seconds")
 
         print("Finished. Saving image")
         pygame.image.save(self.hare.surface, "turtle screenshot.png")

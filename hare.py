@@ -26,12 +26,14 @@ def get_rotation_vector(angle):
 
 
 class Hare:
-    FRAME_SKIP = 1000000
-    FRAME_COUNTER = 1
-    NUM_DRAW_CALLS = 0
+
 
     def __init__(self, target):
         pygame.init()
+
+        self.FRAME_SKIP = 1000000
+        self.FRAME_COUNTER = 1
+        self.NUM_DRAW_CALLS = 0
 
         self.target = target
 
@@ -90,20 +92,20 @@ class Hare:
             pygame.draw.aaline(self.surface, self.line_colour, p1, p2, self.aablend)
 
         if USE_FRAME_SKIP:
-            if self.GLOBAL_frame_counter >= self.FRAME_SKIP:
+            if self.FRAME_COUNTER >= self.FRAME_SKIP:
                 if transparency != 0:
                     self.scale_image()
                 else:
                     self.screen.blit(self.surface, (0, 0))
                 self.update_screen()
-                self.GLOBAL_frame_counter = 0
+                self.FRAME_COUNTER = 0
             else:
-                self.GLOBAL_frame_counter += 1
+                self.FRAME_COUNTER += 1
         else:
             self.update_screen()
 
-        self.num_draw_calls += 1
-        print(f"{self.num_draw_calls}/{self.target} lines drawn")
+        self.NUM_DRAW_CALLS += 1
+        print(f"{self.NUM_DRAW_CALLS}/{self.target} lines drawn")
 
     def draw_line(self, p1, p2, transparency):
         if transparency != 0:
@@ -112,20 +114,20 @@ class Hare:
             pygame.draw.line(self.surface, self.line_colour, p1, p2, self.line_width)
 
         if USE_FRAME_SKIP:
-            if self.GLOBAL_frame_counter >= self.FRAME_SKIP:
+            if self.FRAME_COUNTER >= self.FRAME_SKIP:
                 if transparency != 0:
                     self.scale_image()
                 else:
                     self.screen.blit(self.surface, (0, 0))
                 self.update_screen()
-                self.GLOBAL_frame_counter = 0
+                self.FRAME_COUNTER = 0
             else:
-                self.GLOBAL_frame_counter += 1
+                self.FRAME_COUNTER += 1
         else:
             self.update_screen()
 
-        self.num_draw_calls += 1
-        print(f"{self.num_draw_calls}/{self.target} lines drawn")
+        self.NUM_DRAW_CALLS += 1
+        print(f"{self.NUM_DRAW_CALLS}/{self.target} lines drawn")
 
     def update_screen(self):
         pygame.display.flip()

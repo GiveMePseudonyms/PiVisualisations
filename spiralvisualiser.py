@@ -5,26 +5,23 @@ import random
 
 import turtle_colour_palette_dictionaries
 
-WINDOW_W = 1300
-WINDOW_H = 1300
-
-OFFSET_INCREMENT = 0.5
+WINDOW_W = 1000
+WINDOW_H = 1000
 
 SCREEN_CENTRE = (WINDOW_W / 2, WINDOW_H / 2)
 
 def update_screen():
     pygame.display.flip()
 
-
 class SpiralVisualiser:
-
-    def __init__(self):
+    def __init__(self, settings):
         pygame.init()
+        self.settings = settings
 
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
         self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
+        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours[settings['bg colour']])
 
         self.main_loop()
 
@@ -62,7 +59,7 @@ class SpiralVisualiser:
             target_y = y + WINDOW_H / 2
             coord = (target_x, target_y)
 
-            colour = turtle_colour_palette_dictionaries.starfield[digit]
+            colour = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
 
             pygame.draw.circle(self.screen, colour, coord, size, size)
 

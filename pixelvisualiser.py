@@ -7,37 +7,8 @@ import time as t
 PI_STRING = ""
 PI_ARRAY = []
 
-SCREEN_WIDTH = 10000
-SCREEN_HEIGHT = 10000
-
-
-"""FUN SETTINGS"""
-ANIMATE = False
-
-TARGET = 500000
-
-PIXEL_SIZE_EQUALS_DIGIT = True
-PIXEL_SIZE_EQUALS_DIGIT_SCALING_FACTOR = 0.5
-
-SCALE_SIZE_OVER_TIME = True
-SCALE_SIZE_OVER_TIME_OFFSET = True
-SCALE_OVER_TIME_DIVISION_FACTOR = 1000000000
-
-HIGHLIGHT_123S = False
-
-OFFSET_SAME_AS_POINT_SIZE = False
-OFFSET_SAME_AS_DIGIT = False
-OFFSET = 1
-
-"""minimum 1 v"""
-POINT_SIZE = 3
-
-HIGHLIGHT_COLOUR = (255, 0, 0)
-
-USE_COLOUR_DICTIONARY = True
-
-BG_COLOUR = "space_black"
-POINT_COLOUR = "starfield"
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 
 BG_COLOUR_DICTIONARY = {
     "black": (0, 0, 0),
@@ -77,19 +48,24 @@ COLOUR_DICTIONARY = {
 }
 
 
-class PixelVisualiser:
-    def __init__(self):
+class PixelVisualiser():
+    def __init__(self, settings):
+        self.settings = settings
+
         pygame.init()
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.screen.fill(BG_COLOUR_DICTIONARY[BG_COLOUR])
+        self.screen.fill(BG_COLOUR_DICTIONARY[self.settings['bg colour']])
         pygame.display.set_caption("Pi Visualiser")
         self.flip_display()
+        
+
+        self.main_loop()
 
     def main_loop(self):
         """Set up local vars from globals"""
-        point_size = POINT_SIZE
-        offset = OFFSET
-        if OFFSET_SAME_AS_POINT_SIZE:
+        point_size = self.settings["point size"]
+        offset = self.settings["offset"]
+        if self.settings["offset same as point size"]:
             offset = point_size
 
         # get digits from text file
@@ -142,7 +118,7 @@ class PixelVisualiser:
                     running = False
                     pygame.quit()
 
-                if counter == TARGET:
+                if counter == self.settings["target"]:
                     self.export_image()
                     self.flip_display()
                     running = False
@@ -150,33 +126,35 @@ class PixelVisualiser:
 
                 """INJECT PI-BASED CONDITIONS HERE v"""
 
-                if OFFSET_SAME_AS_DIGIT:
+                point_size = int(self.settings['point size'])
+
+                if self.settings['offset same as digit']:
                     offset = int(digit)
 
-                if PIXEL_SIZE_EQUALS_DIGIT:
-                    point_size = PIXEL_SIZE_EQUALS_DIGIT_SCALING_FACTOR * (int(digit))
+                if self.settings["pixel size equals digit"]:
+                    point_size = int(self.settings['pixel size equals digit scaling factor']) * (int(digit))
 
-                if SCALE_SIZE_OVER_TIME:
-                    point_size += counter / SCALE_OVER_TIME_DIVISION_FACTOR
-                    if SCALE_SIZE_OVER_TIME_OFFSET:
-                        offset += counter / SCALE_OVER_TIME_DIVISION_FACTOR
+                if self.settings['scale size over time']:
+                    point_size += counter / self.settings['scale over time division factor']
+                    if self.settings['scale size over time offset']:
+                        offset += counter / self.settings['scale over time division factor']
 
                 colour_ind = ((int(digit)+1) * 25)
                 rect_colour = (colour_ind, colour_ind, colour_ind)
 
                 """INJECT COLOUR CONDITIONS HERE v"""
 
-                if USE_COLOUR_DICTIONARY:
-                    colour_dictionary = COLOUR_DICTIONARY[POINT_COLOUR]
+                if self.settings['use colour dictionary']:
+                    colour_dictionary = COLOUR_DICTIONARY[self.settings['point colour']]
                     rect_colour = colour_dictionary[digit]
 
-                if HIGHLIGHT_123S:
+                if self.settings['highlight 123s']:
                     if digit == "1" and PI_ARRAY[counter + 1] == "2" and PI_ARRAY[counter + 2] == "3":
-                        rect_colour = HIGHLIGHT_COLOUR
+                        rect_colour = self.settings['highlight colour']
                     if digit == "2" and PI_ARRAY[counter - 1] == "1" and PI_ARRAY[counter + 1] == "3":
-                        rect_colour = HIGHLIGHT_COLOUR
+                        rect_colour = self.settings['highlight colour']
                     if digit == "3" and PI_ARRAY[counter - 1] == "2" and PI_ARRAY[counter - 2] == "1":
-                        rect_colour = HIGHLIGHT_COLOUR
+                        rect_colour = self.settings['highlight colour']
 
                 if steps_taken != step_target:
                     if direction == "R":
@@ -216,15 +194,15 @@ class PixelVisualiser:
 
                 rect_x_position = centre_x - (point_size / 2) + x_index
                 rect_y_position = centre_y - (point_size / 2) + y_index
-                if ANIMATE:
+                if self.settings["animate"]:
                     self.draw_animated(screen, rect_colour, rect_x_position, rect_y_position, point_size)
                 else:
                     self.draw_not_animated(screen, rect_colour, rect_x_position, rect_y_position, point_size)
 
                 counter += 1
-                print(str(counter), "/" + str(TARGET) + " digits drawn")
+                print(str(counter), "/" + str(self.settings["target"]) + " digits drawn")
 
-                pygame.display.set_caption("Pi Visualiser -- " + str(counter) + "/" + str(TARGET) + " pixels drawn")
+                pygame.display.set_caption("Pi Visualiser -- " + str(counter) + "/" + str(self.settings['target']) + " pixels drawn")
 
         while True:
             event = pygame.event.wait()
