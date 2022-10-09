@@ -6,7 +6,6 @@ import hare
 from turtle import *
 from PIL import Image
 import time as t
-import cProfile
 import pathlib
 
 import utils
