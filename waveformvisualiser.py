@@ -1,7 +1,5 @@
 import pygame
 import turtle_colour_palette_dictionaries
-import math
-import perlin
 import pathlib
 
 WINDOW_W = 1200

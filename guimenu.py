@@ -1,13 +1,15 @@
-import pygame
-from pixelvisualiser import PixelVisualiser
-from turtlevisualiser import TurtleVisualiser
-from spiralvisualiser import SpiralVisualiser
-from waveformvisualiser import WaveformVisualiser
-from sandpilevisualiser import SandpileVisualiser
-from webvisualiser import WebVisualiser
-from orbitalvisualisation import OrbitalVisualisation
 import tkinter
+
+import pygame
+
 import SettingsData
+from orbitalvisualisation import OrbitalVisualisation
+from pixelvisualiser import PixelVisualiser
+from sandpilevisualiser import SandpileVisualiser
+from spiralvisualiser import SpiralVisualiser
+from turtlevisualiser import TurtleVisualiser
+from waveformvisualiser import WaveformVisualiser
+from webvisualiser import WebVisualiser
 
 KEEP_ROOT_WINDOW = True
 WINDOW = tkinter.Tk()
