@@ -1,6 +1,6 @@
 import pygame.time
 
-import turtle_colour_palette_dictionaries
+import colour_dictionaries
 import turtle
 import hare
 from turtle import *
@@ -67,13 +67,13 @@ class TurtleVisualiser:
         # pr = cProfile.Profile()
 
         self.hare.move_to(2050, 2050)
-        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
+        self.hare.fill_screen(colour_dictionaries.bg_colours[self.settings['bg colour']])
         self.hare.line_colour = (0, 0, 0)
-        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
+        self.hare.fill_screen(colour_dictionaries.bg_colours[self.settings['bg colour']])
         self.hare.line_width = self.settings['pen size']
 
         if self.settings['cycle colours']:
-            colour_palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['cycle palette']]
+            colour_palette = colour_dictionaries.palettes_dictionary[self.settings['cycle palette']]
             r = colour_palette["r"]
             g = colour_palette["g"]
             b = colour_palette["b"]
@@ -97,7 +97,7 @@ class TurtleVisualiser:
         pi_string = "".join(number_filter)
 
         if self.settings['digit is colour']:
-            palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']]
+            palette = colour_dictionaries.palettes_dictionary[self.settings['digit colour palette']]
 
         self.hare.trsurface.set_alpha(TRANSPARENCY)
 

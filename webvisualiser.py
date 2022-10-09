@@ -1,7 +1,7 @@
 import random
 
 import pygame
-import turtle_colour_palette_dictionaries
+import colour_dictionaries
 import math
 from numberobject import NumberObject
 import pathlib
@@ -42,7 +42,7 @@ class WebVisualiser:
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
         self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
+        self.screen.fill(colour_dictionaries.bg_colours["space black"])
 
         update_screen()
 
@@ -114,7 +114,7 @@ class WebVisualiser:
         number_filter = filter(str.isdigit, pi_string)
         pi_string = "".join(number_filter)
 
-        palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.colour_palette]
+        palette = colour_dictionaries.palettes_dictionary[self.colour_palette]
 
         counter = 0
         

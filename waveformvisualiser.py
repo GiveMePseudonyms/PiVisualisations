@@ -1,5 +1,5 @@
 import pygame
-import turtle_colour_palette_dictionaries
+import colour_dictionaries
 import pathlib
 
 WINDOW_W = 1200
@@ -19,7 +19,7 @@ class WaveformVisualiser:
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
         self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
+        self.screen.fill(colour_dictionaries.bg_colours[self.settings['bg colour']])
 
         self.offset = 15
         self.edge_margin = 20
@@ -57,7 +57,7 @@ class WaveformVisualiser:
             if not running:
                 break
 
-            colour = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
+            colour = colour_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
 
             y = math.cos(int(digit)) * 3
             if x >= (WINDOW_W - self.edge_margin):

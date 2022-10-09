@@ -4,7 +4,7 @@ import pathlib
 
 import pygame
 from orbitalbody import OrbitalBody
-import turtle_colour_palette_dictionaries
+import colour_dictionaries
 
 WINDOW_W = 1200
 WINDOW_H = 1200
@@ -23,7 +23,7 @@ class OrbitalVisualisation:
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
         self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
+        self.screen.fill(colour_dictionaries.bg_colours["space black"])
 
         update_screen()
 

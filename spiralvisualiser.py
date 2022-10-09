@@ -4,7 +4,7 @@ import time
 import random
 import pathlib
 
-import turtle_colour_palette_dictionaries
+import colour_dictionaries
 
 WINDOW_W = 1000
 WINDOW_H = 1000
@@ -22,7 +22,7 @@ class SpiralVisualiser:
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
         self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours[settings['bg colour']])
+        self.screen.fill(colour_dictionaries.bg_colours[settings['bg colour']])
 
         self.main_loop()
 
@@ -60,7 +60,7 @@ class SpiralVisualiser:
             target_y = y + WINDOW_H / 2
             coord = (target_x, target_y)
 
-            colour = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
+            colour = colour_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
 
             pygame.draw.circle(self.screen, colour, coord, size, size)
 
