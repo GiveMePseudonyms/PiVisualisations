@@ -9,12 +9,14 @@ class SettingsData:
         self.turtle_visualiser_options = self.TurtleVisualiserOptions(self.WINDOW)
         self.spiral_visualiser_options = self.SpiralVisualiserOptions(self.WINDOW)
         self.waveform_visualiser_options = self.WaveformVisualiserOptions(self.WINDOW)
+        self.sandpile_visualiser_options = self.SandPileVisualiserOptions(self.WINDOW)
 
         self.all_widgets = [
             self.pixel_visualiser_options.widgets,
             self.turtle_visualiser_options.widgets,
             self.spiral_visualiser_options.widgets,
             self.waveform_visualiser_options.widgets,
+            self.sandpile_visualiser_options.widgets,
         ]
 
         self.all_labels = [
@@ -22,6 +24,7 @@ class SettingsData:
             self.turtle_visualiser_options.labels,
             self.spiral_visualiser_options.labels,
             self.waveform_visualiser_options.labels,
+            self.sandpile_visualiser_options.labels,
         ]
 
         self.selection = ''
@@ -50,11 +53,9 @@ class SettingsData:
             for label in self.spiral_visualiser_options.labels:
                 if label != None:
                     label.grid_forget()
-
-        
+     
         self.WINDOW.update()
         
-
     class TestData:
         def __init__(self, WINDOW):
             self.visible = False
@@ -325,4 +326,36 @@ class SettingsData:
             self.labels = [
                 self.lbl_combobox_bg_colour,
                 self.lbl_combobox_digit_colour_palette,
+            ]
+
+    class SandPileVisualiserOptions:
+        def __init__(self, WINDOW):
+            self.settings = {
+                'bg colour': 'white',
+                'colour scheme': 'sandyboi',
+                'update interval': 20,
+            }
+
+            self.lbl_combobox_bg_colour = ttk.Label(WINDOW, text='Background colour')
+            self.combobox_bg_colour = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_bg_colour['values'] = ['Space Black', 'White', 'Black', 'Red', 'Green', 'Blue']
+
+            self.lbl_combobox_colour_scheme = ttk.Label(WINDOW, text='Colour scheme')
+            self.combobox_colour_scheme = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_colour_scheme['values'] = ['Sand', 'Pastels', 'Square', 'Washed Pastels']
+
+            self.lbl_combobox_update_interval = ttk.Label(WINDOW, text='Update interval')
+            self.combobox_update_interval = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_update_interval['values'] = ['1', '10', '20', '50', '100', '250', '1000']
+
+            self.widgets = [
+                self.combobox_bg_colour,
+                self.combobox_colour_scheme,
+                self.combobox_update_interval,
+            ]
+
+            self.labels = [
+                self.lbl_combobox_bg_colour,
+                self.lbl_combobox_colour_scheme,
+                self.lbl_combobox_update_interval,
             ]

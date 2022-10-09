@@ -63,7 +63,7 @@ def entry_point():
 
     btn_launch_sandpile_visualiser = tkinter.Button(WINDOW, text="Sandpile Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=run_sandpile_visualiser)
+                                                  command=lambda: select_visualiser(settings_data, 'sandpilevisualiser.py'))
 
     btn_launch_web_visualiser = tkinter.Button(WINDOW, text="Web Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
@@ -99,18 +99,19 @@ def clear_widgets_labels(settings_data):
 
 def select_visualiser(settings_data, visualiser):
     clear_widgets_labels(settings_data)
+
     if visualiser == 'pixelvisualiser.py':
         settings_data.select_visualiser("pixelvisualiser.py")
-        expand_options(settings_data)
     elif visualiser == 'turtlevisualiser.py':
         settings_data.select_visualiser('turtlevisualiser.py')
-        expand_options(settings_data)
     elif visualiser == 'spiralvisualiser.py':
         settings_data.select_visualiser('spiralvisualiser.py')
-        expand_options(settings_data)
     elif visualiser == 'waveformvisualiser.py':
         settings_data.select_visualiser('waveformvisualiser.py')
-        expand_options(settings_data)
+    elif visualiser == 'sandpilevisualiser.py':
+        settings_data.select_visualiser('sandpilevisualiser.py')
+    
+    expand_options(settings_data)
 
 def expand_options(settings_data):
     if settings_data.selection == "test":
@@ -152,10 +153,15 @@ def expand_options(settings_data):
         for _ in range(0, len(settings_data.waveform_visualiser_options.widgets)):
             settings_data.waveform_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
 
-    elif settings_data.selection == "waveformvisualiser.py":
-        pass
     elif settings_data.selection == "sandpilevisualiser.py":
-        pass
+        for label in settings_data.sandpile_visualiser_options.labels:
+            if label != None:
+                label.grid(column=2, row=settings_data.sandpile_visualiser_options.labels.index(label))
+            else: pass
+
+        for _ in range(0, len(settings_data.sandpile_visualiser_options.widgets)):
+            settings_data.sandpile_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+
     elif settings_data.selection == "webvisualiser.py":
         pass
     elif settings_data.selection == "orbitalvisualisation.py":
@@ -163,13 +169,12 @@ def expand_options(settings_data):
     
     WINDOW.update()
 
-def run_pixel_visualiser(settings_data):
+def run_pixel_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
         WINDOW.destroy()
     print("Running pixel visualiser with settings: ")
     print(settings_data)
-    
-    pixel_visualiser = PixelVisualiser(settings_data)
+    pixel_visualiser = PixelVisualiser(settings)
 
 def run_turtle_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
@@ -186,10 +191,10 @@ def run_waveform_visualiser(settings):
         WINDOW.destroy()
     waveform_visualiser = WaveformVisualiser(settings)
 
-def run_sandpile_visualiser():
+def run_sandpile_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
         WINDOW.destroy()
-    sandpile_visualiser = SandpileVisualiser()
+    sandpile_visualiser = SandpileVisualiser(settings)
 
 def run_web_visualiser():
     if not KEEP_ROOT_WINDOW:
@@ -224,6 +229,10 @@ def start(settings_data):
     elif settings_data.selection == 'waveformvisualiser.py':
         settings_data.waveform_visualiser_options.settings = generate_waveform_visualiser_settings(settings_data.waveform_visualiser_options)
         run_waveform_visualiser(settings_data.waveform_visualiser_options.settings)
+
+    elif settings_data.selection == 'sandpilevisualiser.py':
+        settings_data.sandpile_visualiser_options.settings = generate_sandpile_visualiser_settings(settings_data.sandpile_visualiser_options)
+        run_sandpile_visualiser(settings_data.sandpile_visualiser_options.settings)
 
 def generate_pixel_visualiser_settings(settings_data):
     if settings_data.chk_animate.instate(['selected']):
@@ -387,6 +396,23 @@ def generate_waveform_visualiser_settings(settings_data):
         settings['digit colour palette'] = settings_data.combobox_digit_colour_palette.get().lower()
     else: settings['digit colour palette'] = 'starfield'
     
+    return settings_data.settings
+
+def generate_sandpile_visualiser_settings(settings_data):
+    settings = settings_data.settings
+    
+    if settings_data.combobox_bg_colour.get() != '':
+        settings['bg colour'] = settings_data.combobox_bg_colour.get().lower()
+    else: settings['bg colour'] = 'white'
+
+    if settings_data.combobox_colour_scheme.get() != '':
+        settings['colour scheme'] = settings_data.combobox_colour_scheme.get().lower()
+    else: settings['colour scheme'] = 'sandyboi'
+
+    if settings_data.combobox_update_interval.get() != '':
+        settings['update interval'] = int(settings_data.combobox_update_interval.get())
+    else: settings['update interval'] = 20
+
     return settings_data.settings
 
 if __name__ == '__main__':

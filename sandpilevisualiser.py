@@ -1,18 +1,18 @@
 import pygame
-from sandpile_colour_schemes import colour_schemes as cs
+import sandpile_colour_schemes
 
 WINDOW_W = 1200
 WINDOW_H = 1200
 
-BG_COLOUR = (21, 24, 33)
-
-COLOUR_SCHEME = "sandyboi"
-
-
 class SandpileVisualiser:
-    def __init__(self):
+    def __init__(self, settings):
 
         pygame.init()
+
+        self.settings = settings
+        self.colour_scheme = sandpile_colour_schemes.colour_schemes[self.settings['colour scheme']]
+        self.bg_colour = sandpile_colour_schemes.bg_colours[self.settings['bg colour']]
+        self.update_interval = self.settings['update interval']
 
         pygame.display.set_caption("Sandpile Visualiser")
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -28,8 +28,6 @@ class SandpileVisualiser:
 
         # make a 2d array for the grid of window size, all containing a 0
         self.grid = [[0] * self.cols for _ in range(self.rows)]
-
-        self.colour_scheme = cs[COLOUR_SCHEME]
 
         self.main_loop()
 
@@ -47,7 +45,7 @@ class SandpileVisualiser:
         print("Finished setting up. Starting simulation.")
 
         counter = 0
-        count_target = 20
+        count_target = self.update_interval
 
         while True:
             for x in range(self.rows):
@@ -69,6 +67,7 @@ class SandpileVisualiser:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
 
+        self.update_display()
         print("Finished or interrupted, saving screenshot!")
         pygame.image.save(self.screen, "sandpile screenshot.png")
 
@@ -78,6 +77,7 @@ class SandpileVisualiser:
 
     def draw_grid(self):
         # I can speed this up using a dispatch dictionary (dict of functions which will be called in each case)
+        # I could also use numpy to vectorise the arrays
         for x in range(self.rows):
             for y in range(self.cols):
                 if self.grid[x][y] > 3:
@@ -97,7 +97,7 @@ class SandpileVisualiser:
                                      pygame.Rect(x * self.pixel_size, y * self.pixel_size, self.pixel_size,
                                                  self.pixel_size))
                 elif self.grid[x][y] == 0:
-                    pygame.draw.rect(self.screen, BG_COLOUR,
+                    pygame.draw.rect(self.screen, sandpile_colour_schemes.bg_colours[self.settings['bg colour']],
                                      pygame.Rect(x * self.pixel_size, y * self.pixel_size, self.pixel_size,
                                                  self.pixel_size))
         self.draw_call_counter += 1
