@@ -106,4 +106,3 @@ class OrbitalVisualisation:
 
     def blit_onto_main(self, obj):
         self.screen.blit(obj.surface, (0, 0))
-        

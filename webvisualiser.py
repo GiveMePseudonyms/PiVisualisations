@@ -162,4 +162,3 @@ class WebVisualiser:
                 if not waiting:
                     break
         pygame.quit()
-        

@@ -184,4 +184,3 @@ class TurtleVisualiser:
                     waiting = False
             if not waiting:
                 pygame.quit()
-                

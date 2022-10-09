@@ -73,10 +73,6 @@ def entry_point():
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
                                                   command=lambda: select_visualiser(settings_data, 'orbitalvisualisation.py'))
 
-    btn_test = tkinter.Button(WINDOW, text="Test", bg=button_settings['bg'],
-                                                    font=(button_settings['font'], button_settings['fontsize']),
-                                                    command=lambda: test(settings_data))
-
     btn_start = tkinter.Button(WINDOW, text="Start", bg=button_settings["specialbg"], fg=button_settings["specialbg"], 
                                                     font=(button_settings['font'], button_settings['fontsize']), 
                                                     command=lambda: start(settings_data))
@@ -90,20 +86,13 @@ def entry_point():
 
     WINDOW.mainloop()
 
-def test(settings_data):
-    settings_data.select_visualiser("test")
-    expand_options(settings_data)
-
 def select_visualiser(settings_data, visualiser):
     settings_data.grid_forget_all()
     settings_data.select_visualiser(visualiser)
     expand_options(settings_data)
 
 def expand_options(settings_data):
-    if settings_data.selection == "test":
-        for _ in range(0, len(settings_data.test_data.widgets)):
-            settings_data.test_data.widgets[_].grid(column=3, row=_, sticky=tkinter.E)
-    elif settings_data.selection == "pixelvisualiser.py":
+    if settings_data.selection == "pixelvisualiser.py":
         for label in settings_data.pixel_visualiser_options.labels:
             if label != None:
                 label.grid(column=2, row=settings_data.pixel_visualiser_options.labels.index(label))
@@ -204,14 +193,7 @@ def run_orbital_visualiser(settings):
     orbital_visualiser = OrbitalVisualisation(settings)
 
 def start(settings_data):
-    if settings_data.selection == "test":
-        print(f"Test selected and started.")
-        if settings_data.test_data.checkbox.instate(['selected']):
-            print("Checkbox is selected")
-        else: print("Checkbox not selected")
-        print(f"Textfield text = {settings_data.test_data.textfield.get()}")
-
-    elif settings_data.selection == "pixelvisualiser.py":
+    if settings_data.selection == "pixelvisualiser.py":
         settings_data.pixel_visualiser_options.settings = generate_pixel_visualiser_settings(settings_data.pixel_visualiser_options)
         run_pixel_visualiser(settings_data.pixel_visualiser_options.settings)
         
@@ -460,4 +442,3 @@ def generate_orbital_visualiser_settings(settings_data):
 
 if __name__ == '__main__':
     entry_point()
-    

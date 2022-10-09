@@ -75,4 +75,3 @@ class SpiralVisualiser:
                 
         path = pathlib.Path('outputs/Spiral/spiral screenshot.png')
         pygame.image.save(self.screen, path)
-        

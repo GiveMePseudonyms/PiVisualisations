@@ -1,9 +1,6 @@
 import pygame
 import sandpile_colour_schemes
-<<<<<<< HEAD
 import pathlib
-=======
->>>>>>> 27af6b481d7aeae2b9c21bcbc408334de27dda09
 
 WINDOW_W = 1200
 WINDOW_H = 1200
@@ -114,4 +111,3 @@ class SandpileVisualiser:
         self.grid[x - 1][y] += 1
         self.grid[x + 1][y] += 1
         self.grid[x][y + 1] += 1
-        

@@ -80,4 +80,3 @@ class WaveformVisualiser:
 
         path = pathlib.Path('outputs/Waveform/waveform screenshot.png')
         pygame.image.save(self.screen, path)
-        

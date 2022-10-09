@@ -17,4 +17,3 @@ def calculate_fps(time_taken_this_frame, fps_timer_precision):
 
 def clear_console():
     os.system('clear')
-

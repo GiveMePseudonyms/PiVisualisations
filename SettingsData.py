@@ -4,17 +4,13 @@ from tkinter import ttk
 class SettingsData:
     def __init__(self, WINDOW):
         self.WINDOW = WINDOW
-        self.test_data = self.TestData(self.WINDOW)
         self.pixel_visualiser_options = self.PixelVisualiserOptions(self.WINDOW)
         self.turtle_visualiser_options = self.TurtleVisualiserOptions(self.WINDOW)
         self.spiral_visualiser_options = self.SpiralVisualiserOptions(self.WINDOW)
         self.waveform_visualiser_options = self.WaveformVisualiserOptions(self.WINDOW)
         self.sandpile_visualiser_options = self.SandPileVisualiserOptions(self.WINDOW)
-<<<<<<< HEAD
         self.web_visualiser_options = self.WebVisualiserOptions(self.WINDOW)
         self.orbital_visualiser_options = self.OrbitalVisualiserOptions(self.WINDOW)
-=======
->>>>>>> 27af6b481d7aeae2b9c21bcbc408334de27dda09
 
         self.all_widgets = [
             self.pixel_visualiser_options.widgets,
@@ -22,11 +18,8 @@ class SettingsData:
             self.spiral_visualiser_options.widgets,
             self.waveform_visualiser_options.widgets,
             self.sandpile_visualiser_options.widgets,
-<<<<<<< HEAD
             self.web_visualiser_options.widgets,
             self.orbital_visualiser_options.widgets,
-=======
->>>>>>> 27af6b481d7aeae2b9c21bcbc408334de27dda09
         ]
 
         self.all_labels = [
@@ -35,11 +28,8 @@ class SettingsData:
             self.spiral_visualiser_options.labels,
             self.waveform_visualiser_options.labels,
             self.sandpile_visualiser_options.labels,
-<<<<<<< HEAD
             self.web_visualiser_options.labels,
             self.orbital_visualiser_options.labels,
-=======
->>>>>>> 27af6b481d7aeae2b9c21bcbc408334de27dda09
         ]
 
         self.selection = ''
@@ -56,34 +46,8 @@ class SettingsData:
             for label in labellist:
                 if label != None:
                     label.grid_forget()
-<<<<<<< HEAD
-=======
-
-        if self.selection == 'turtlevisualiser.py':
-            for widget in self.turtle_visualiser_options.widgets:
-                widget.grid_forget()
-            for label in self.turtle_visualiser_options.labels:
-                if label != None:
-                    label.grid_forget()
-
-        if self.selection == 'spiralvisualiser.py':
-            for widget in self.spiral_visualiser_options.widgets:
-                widget.grid_forget()
-            for label in self.spiral_visualiser_options.labels:
-                if label != None:
-                    label.grid_forget()
->>>>>>> 27af6b481d7aeae2b9c21bcbc408334de27dda09
      
         self.WINDOW.update()
-        
-    class TestData:
-        def __init__(self, WINDOW):
-            self.visible = False
-            self.checkbox = ttk.Checkbutton(WINDOW, text="test")
-            self.textfield = ttk.Entry(WINDOW)
-
-            self.widgets = []
-            self.widgets.extend([self.checkbox, self.textfield])
     
     class PixelVisualiserOptions:
         def __init__(self, WINDOW):
@@ -106,7 +70,6 @@ class SettingsData:
                 "bg colour" : "space_black",
                 "point colour" : "starfield",
                 }   
-
 
             self.chk_animate = ttk.Checkbutton(WINDOW, text="Animate")
             
@@ -378,7 +341,6 @@ class SettingsData:
                 self.lbl_combobox_bg_colour,
                 self.lbl_combobox_colour_scheme,
                 self.lbl_combobox_update_interval,
-<<<<<<< HEAD
             ]
 
     class WebVisualiserOptions:
@@ -447,7 +409,3 @@ class SettingsData:
             self.labels = [
                 self.lbl_combobox_line_opacity,
             ]
-            
-=======
-            ]
->>>>>>> 27af6b481d7aeae2b9c21bcbc408334de27dda09
