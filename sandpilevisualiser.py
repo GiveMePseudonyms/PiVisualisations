@@ -1,5 +1,6 @@
 import pygame
 import sandpile_colour_schemes
+import pathlib
 
 WINDOW_W = 1200
 WINDOW_H = 1200
@@ -69,7 +70,8 @@ class SandpileVisualiser:
 
         self.update_display()
         print("Finished or interrupted, saving screenshot!")
-        pygame.image.save(self.screen, "sandpile screenshot.png")
+        path = pathlib.Path('outputs/Sandpile/sandpile screenshot.png')
+        pygame.image.save(self.screen, path)
 
     def update_display(self):
         self.draw_grid()

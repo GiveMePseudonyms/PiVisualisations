@@ -1,5 +1,6 @@
 import math
 import random
+import pathlib
 
 import pygame
 from orbitalbody import OrbitalBody
@@ -8,15 +9,15 @@ import turtle_colour_palette_dictionaries
 WINDOW_W = 1200
 WINDOW_H = 1200
 
-LINE_TRANSPARENCY = 70
-
 def update_screen():
     pygame.display.flip()
 
-
 class OrbitalVisualisation:
-    def __init__(self):
+    def __init__(self, settings):
         pygame.init()
+
+        self.settings = settings
+        self.line_opacity = self.settings['line opacity']
 
         pygame.display.set_caption("Orbital Visualiser")
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -39,7 +40,7 @@ class OrbitalVisualisation:
 
         line_surface = pygame.Surface((WINDOW_W, WINDOW_H))
         line_surface.set_colorkey((0, 0, 0))
-        line_surface.set_alpha(LINE_TRANSPARENCY)
+        line_surface.set_alpha(self.line_opacity)
 
         sun = OrbitalBody(50, (255, 255, 0), centre_x, centre_y, body_surface, 0)
         sun.draw_self()
@@ -99,7 +100,8 @@ class OrbitalVisualisation:
 
             update_screen()
 
-        pygame.image.save(self.screen, "orbital visualisation.png")
+        path = pathlib.Path('outputs/Orbit/orbital visualisation.png')
+        pygame.image.save(self.screen, path)
         pygame.quit()
 
     def blit_onto_main(self, obj):

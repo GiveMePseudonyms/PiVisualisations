@@ -1,5 +1,6 @@
 import time
 import sys
+import pathlib
 
 import pygame
 import time as t
@@ -220,7 +221,8 @@ class PixelVisualiser():
         pygame.display.flip()
 
     def export_image(self):
-        pygame.image.save(self.screen, "pixel screenshot.png")
+        path = pathlib.Path('outputs/Pixel/pixel screenshot.png')
+        pygame.image.save(self.screen, path)
 
     def check_for_quits(self):
         for event in pygame.event.get():

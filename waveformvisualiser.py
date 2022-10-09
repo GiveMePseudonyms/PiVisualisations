@@ -2,6 +2,7 @@ import pygame
 import turtle_colour_palette_dictionaries
 import math
 import perlin
+import pathlib
 
 WINDOW_W = 1200
 WINDOW_H = 1200
@@ -76,4 +77,6 @@ class WaveformVisualiser:
                 break
 
         print("Finished. Saving image")
-        pygame.image.save(self.screen, "waveform screenshot.png")
+
+        path = pathlib.Path('outputs/Waveform/waveform screenshot.png')
+        pygame.image.save(self.screen, path)

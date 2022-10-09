@@ -1,19 +1,3 @@
-"""
-TO DO:
-Make a "general settings" dict in separate py file so i can have settings held out of main.
-    ALSO add settings to launcher window so I can change things during use, then send them into the settings dict
-
-Make function to scale the created image to fit into the window
-(maybe look at how this worked for 4k images from the pixel version
-    Done-ish. Will look for a better way to handle this.
-    COULD track the cartesian of each line, then add some padding and make a surface to match the size, then scale it.
-        this would also help with centring the image.
-
-Implement transparency for new version (needs to make a new surface per line since
-transparency is done per surface, shouldn't be too hard)
-    Still working on this. Making a new surface for each line creates lag, ignore for now.
-"""
-
 import pygame.time
 
 import turtle_colour_palette_dictionaries
@@ -23,6 +7,7 @@ from turtle import *
 from PIL import Image
 import time as t
 import cProfile
+import pathlib
 
 import utils
 
@@ -187,7 +172,9 @@ class TurtleVisualiser:
         print(f"{self.settings['target']} lines drawn in {elapsed} seconds")
 
         print("Finished. Saving image")
-        pygame.image.save(self.hare.surface, "turtle screenshot.png")
+
+        path = pathlib.Path('outputs/Turtle/turtle screenshot.png')
+        pygame.image.save(self.hare.surface, path)
 
         waiting = True
 
