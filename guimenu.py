@@ -460,7 +460,7 @@ def makedirs():
 
     for directory in dirlist:
         absdir = os.path.join(abspath, directory)
-        if not pathlib.Path(absdir).exists():
+        if not os.path.exists(absdir):
             os.makedirs(absdir)
 
 if __name__ == '__main__':
