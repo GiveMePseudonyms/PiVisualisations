@@ -3,11 +3,6 @@
 General Info:
 This is a project I started in August 2022 in order to visualise millions of digits of Pi.
 
-Stack:
-In Python,
-Pygame,
-Tkinter,
-
 Users can choose a visualiser and choose their own settings using the settings GUI:
 <img width="812" alt="image" src="https://user-images.githubusercontent.com/113452530/194759621-30d25c26-8a90-4346-ab74-21f9e8b97fac.png">
 
