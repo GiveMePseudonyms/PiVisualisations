@@ -79,7 +79,7 @@ def entry_point():
 
     btn_list = []
     btn_list.extend([btn_launch_pixel_visualiser, btn_launch_turtle_visualiser, btn_launch_spiral_visualiser, btn_launch_waveform_visualiser,btn_launch_sandpile_visualiser,
-    btn_launch_web_visualiser, btn_launch_orbital_visualiser,btn_test, btn_start])
+    btn_launch_web_visualiser, btn_launch_orbital_visualiser, btn_start])
 
     for _ in range(0, len(btn_list)):
         btn_list[_].grid(column=0, row=_, sticky=tkinter.W, pady=2, padx=30)
