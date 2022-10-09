@@ -9,12 +9,18 @@ class SettingsData:
         self.turtle_visualiser_options = self.TurtleVisualiserOptions(self.WINDOW)
         self.spiral_visualiser_options = self.SpiralVisualiserOptions(self.WINDOW)
         self.waveform_visualiser_options = self.WaveformVisualiserOptions(self.WINDOW)
+        self.sandpile_visualiser_options = self.SandPileVisualiserOptions(self.WINDOW)
+        self.web_visualiser_options = self.WebVisualiserOptions(self.WINDOW)
+        self.orbital_visualiser_options = self.OrbitalVisualiserOptions(self.WINDOW)
 
         self.all_widgets = [
             self.pixel_visualiser_options.widgets,
             self.turtle_visualiser_options.widgets,
             self.spiral_visualiser_options.widgets,
             self.waveform_visualiser_options.widgets,
+            self.sandpile_visualiser_options.widgets,
+            self.web_visualiser_options.widgets,
+            self.orbital_visualiser_options.widgets,
         ]
 
         self.all_labels = [
@@ -22,6 +28,9 @@ class SettingsData:
             self.turtle_visualiser_options.labels,
             self.spiral_visualiser_options.labels,
             self.waveform_visualiser_options.labels,
+            self.sandpile_visualiser_options.labels,
+            self.web_visualiser_options.labels,
+            self.orbital_visualiser_options.labels,
         ]
 
         self.selection = ''
@@ -30,31 +39,17 @@ class SettingsData:
         self.selection = selection
 
     def grid_forget_all(self):
-        if self.selection == 'pixelvisualiser.py':
-            for widget in self.pixel_visualiser_options.widgets:
+        for widgetlist in self.all_widgets:
+            for widget in widgetlist:
                 widget.grid_forget()
-            for label in self.pixel_visualiser_options.labels:
+
+        for labellist in self.all_labels:
+            for label in labellist:
                 if label != None:
                     label.grid_forget()
-
-        if self.selection == 'turtlevisualiser.py':
-            for widget in self.turtle_visualiser_options.widgets:
-                widget.grid_forget()
-            for label in self.turtle_visualiser_options.labels:
-                if label != None:
-                    label.grid_forget()
-
-        if self.selection == 'spiralvisualiser.py':
-            for widget in self.spiral_visualiser_options.widgets:
-                widget.grid_forget()
-            for label in self.spiral_visualiser_options.labels:
-                if label != None:
-                    label.grid_forget()
-
-        
+     
         self.WINDOW.update()
         
-
     class TestData:
         def __init__(self, WINDOW):
             self.visible = False
@@ -326,3 +321,103 @@ class SettingsData:
                 self.lbl_combobox_bg_colour,
                 self.lbl_combobox_digit_colour_palette,
             ]
+
+    class SandPileVisualiserOptions:
+        def __init__(self, WINDOW):
+            self.settings = {
+                'bg colour': 'white',
+                'colour scheme': 'sandyboi',
+                'update interval': 20,
+            }
+
+            self.lbl_combobox_bg_colour = ttk.Label(WINDOW, text='Background colour')
+            self.combobox_bg_colour = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_bg_colour['values'] = ['Space Black', 'White', 'Black', 'Red', 'Green', 'Blue']
+
+            self.lbl_combobox_colour_scheme = ttk.Label(WINDOW, text='Colour scheme')
+            self.combobox_colour_scheme = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_colour_scheme['values'] = ['Sand', 'Pastels', 'Square', 'Washed Pastels']
+
+            self.lbl_combobox_update_interval = ttk.Label(WINDOW, text='Update interval')
+            self.combobox_update_interval = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_update_interval['values'] = ['1', '10', '20', '50', '100', '250', '1000']
+
+            self.widgets = [
+                self.combobox_bg_colour,
+                self.combobox_colour_scheme,
+                self.combobox_update_interval,
+            ]
+
+            self.labels = [
+                self.lbl_combobox_bg_colour,
+                self.lbl_combobox_colour_scheme,
+                self.lbl_combobox_update_interval,
+            ]
+
+    class WebVisualiserOptions:
+        def __init__(self, WINDOW):
+            self.settings = {
+                'target': 10000,
+                'random offset upper bound': 20,
+                'random offset lower bound': 0,
+                'colour palette': 'peach and purple',
+                'use random colours': False,
+                'update interval': 1000,
+            }
+
+            self.lbl_textfield_target = ttk.Label(WINDOW, text='Target')
+            self.textield_target = ttk.Entry(WINDOW)
+
+            self.lbl_textfield_update_interval = ttk.Label(WINDOW, text='Update interval')
+            self.textfield_update_interval = ttk.Entry(WINDOW)
+
+            self.lbl_combobox_random_offset_upper_bound = ttk.Label(WINDOW, text='Random offset upper bound')
+            self.combobox_random_offset_upper_bound = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_random_offset_upper_bound['values'] = ['10', '20', '30', '40', '50']
+
+            self.lbl_combobox_random_offset_lower_bound = ttk.Label(WINDOW, text='Random offset lower bound')
+            self.combobox_random_offset_lower_bound = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_random_offset_lower_bound['values'] = ['0', '1', '2', '3', '4', '5']
+
+            self.lbl_combobox_colour_palette = ttk.Label(WINDOW, text='Colour palette')
+            self.combobox_colour_palette = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_colour_palette['values'] = ['Starfield', 'Yellow and Purple', 'Mint', 'Peach and Purple']
+
+            self.chk_use_random_colours = ttk.Checkbutton(WINDOW, text='Use random colours')
+
+            self.widgets = [
+                self.textield_target,
+                self.textfield_update_interval,
+                self.combobox_random_offset_upper_bound,
+                self.combobox_random_offset_lower_bound,
+                self.combobox_colour_palette,
+                self.chk_use_random_colours,
+            ]
+
+            self.labels = [
+                self.lbl_textfield_target,
+                self.lbl_textfield_update_interval,
+                self.lbl_combobox_random_offset_upper_bound,
+                self.lbl_combobox_random_offset_lower_bound,
+                self.lbl_combobox_colour_palette,
+                None,
+            ]
+
+    class OrbitalVisualiserOptions:
+        def __init__(self, WINDOW):
+            self.settings = {
+                'line opacity': 70,
+            }
+            
+            self.lbl_combobox_line_opacity = ttk.Label(WINDOW, text='Line opacity')
+            self.combobox_line_opacity = ttk.Combobox(WINDOW, state='readonly')
+            self.combobox_line_opacity['values'] = ['0', '10', '20', '30', '40', '50', '60', '70', '80', '90', '100']
+
+            self.widgets = [
+                self.combobox_line_opacity,
+            ]
+
+            self.labels = [
+                self.lbl_combobox_line_opacity,
+            ]
+            

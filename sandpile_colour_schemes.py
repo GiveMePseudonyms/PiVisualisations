@@ -1,12 +1,11 @@
-
-sandyboi = {
+sand = {
     "1": (189, 161, 102),
     "2": (128, 83, 55),
     "3": (250, 231, 81),
     ">3": (66, 41, 44),
 }
 
-pastelboi = {
+pastels = {
     "1": (212, 255, 230),
     "2": (192, 212, 235),
     "3": (169, 64, 255),
@@ -20,7 +19,7 @@ square = {
     ">3": (230, 195, 23),
 }
 
-washed_out_pastels = {
+washed_pastels = {
     "1": (230, 245, 218),
     "2": (255, 246, 224),
     "3": (232, 191, 188),
@@ -28,8 +27,17 @@ washed_out_pastels = {
 }
 
 colour_schemes = {
-    "sandyboi": sandyboi,
-    "pastelboi": pastelboi,
+    "sand": sand,
+    "pastels": pastels,
     "square": square,
-    "washed out pastels": washed_out_pastels,
+    "washed pastels": washed_pastels,
+}
+
+bg_colours = {
+    "white": (255, 255, 255),
+    "black": (0, 0, 0),
+    "space black": (21, 24, 33),
+    "red": (255, 0, 0),
+    "green": (0, 255, 0),
+    "blue": (0, 0, 255),
 }

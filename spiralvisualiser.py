@@ -2,6 +2,7 @@ import pygame
 import math
 import time
 import random
+import pathlib
 
 import turtle_colour_palette_dictionaries
 
@@ -71,5 +72,7 @@ class SpiralVisualiser:
                 counter = 0
             else:
                 counter += 1
-
-        pygame.image.save(self.screen, "spiral screenshot.png")
+                
+        path = pathlib.Path('outputs/Spiral/spiral screenshot.png')
+        pygame.image.save(self.screen, path)
+        

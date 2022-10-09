@@ -4,19 +4,20 @@ import pygame
 import turtle_colour_palette_dictionaries
 import math
 from numberobject import NumberObject
+import pathlib
 
 WINDOW_W = 1200
 WINDOW_H = 1200
 
 FONT_SIZE = 30
-TARGET = 10000
+# TARGET = 10000
 
-RANDOM_OFFSET_UPPER_BOUND = 20
-RANDOM_OFFSET_LOWER_BOUND = 0
+# RANDOM_OFFSET_UPPER_BOUND = 20
+# RANDOM_OFFSET_LOWER_BOUND = 0
 
-COLOUR_PALETTE = "peach and purple"
+# COLOUR_PALETTE = "peach and purple"
 
-USE_RANDOM_COLOURS = False
+# USE_RANDOM_COLOURS = False
 
 
 def update_screen():
@@ -25,9 +26,17 @@ def update_screen():
 
 class WebVisualiser:
 
-    def __init__(self):
+    def __init__(self, settings):
 
         pygame.init()
+
+        self.settings = settings
+        self.target = settings['target']
+        self.update_interval = settings['update interval']
+        self.random_offset_upper_bound = settings['random offset upper bound']
+        self.random_offset_lower_bound = settings['random offset lower bound']
+        self.colour_palette = settings['colour palette']
+        self.use_random_colours = settings['use random colours']
 
         pygame.display.set_caption("Web Visualiser")
         self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
@@ -105,19 +114,20 @@ class WebVisualiser:
         number_filter = filter(str.isdigit, pi_string)
         pi_string = "".join(number_filter)
 
-        palette = turtle_colour_palette_dictionaries.palettes_dictionary[COLOUR_PALETTE]
+        palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.colour_palette]
 
         counter = 0
-        update_interval = 1000
+        
         for i in range(0, len(pi_string)):
-            if counter == TARGET:
+            if counter >= self.target:
                 print("hit target")
+                update_screen()
                 break
             if i != len(pi_string):
                 surface = pygame.Surface((WINDOW_W, WINDOW_H))
                 surface.set_alpha(10)
-                rand_offset = random.uniform(RANDOM_OFFSET_LOWER_BOUND, RANDOM_OFFSET_UPPER_BOUND)
-                if USE_RANDOM_COLOURS:
+                rand_offset = random.uniform(self.random_offset_lower_bound, self.random_offset_upper_bound)
+                if self.use_random_colours:
                     r = random.uniform(0, 255)
                     g = random.uniform(0, 255)
                     b = random.uniform(0, 255)
@@ -135,12 +145,14 @@ class WebVisualiser:
                                        ((numberobjectdict[pi_string[i + 1]].x_pos + rand_offset),
                                         (numberobjectdict[pi_string[i + 1]].y_pos + rand_offset)), 1)
                 self.screen.blit(surface, (0, 0))
-                if (counter % update_interval) == 0:
+                if (counter % self.update_interval) == 0:
                     update_screen()
             counter += 1
-            print(f"{counter}/{TARGET}")
+            print(f"{counter}/{self.target}")
 
-        pygame.image.save(self.screen, "web visualiser screenshot.png")
+        path = pathlib.Path('outputs/Web/web visualiser screenshot.png')
+        pygame.image.save(self.screen, path)
+        print(f"saved {path}")
 
         waiting = True
         while waiting:
@@ -150,3 +162,4 @@ class WebVisualiser:
                 if not waiting:
                     break
         pygame.quit()
+        

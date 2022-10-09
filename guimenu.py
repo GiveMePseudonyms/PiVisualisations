@@ -63,15 +63,15 @@ def entry_point():
 
     btn_launch_sandpile_visualiser = tkinter.Button(WINDOW, text="Sandpile Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=run_sandpile_visualiser)
+                                                  command=lambda: select_visualiser(settings_data, 'sandpilevisualiser.py'))
 
     btn_launch_web_visualiser = tkinter.Button(WINDOW, text="Web Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=run_web_visualiser)
+                                                  command=lambda: select_visualiser(settings_data, 'webvisualiser.py'))
 
     btn_launch_orbital_visualiser = tkinter.Button(WINDOW, text="Orbital Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=run_orbital_visualiser)
+                                                  command=lambda: select_visualiser(settings_data, 'orbitalvisualisation.py'))
 
     btn_test = tkinter.Button(WINDOW, text="Test", bg=button_settings['bg'],
                                                     font=(button_settings['font'], button_settings['fontsize']),
@@ -94,23 +94,10 @@ def test(settings_data):
     settings_data.select_visualiser("test")
     expand_options(settings_data)
 
-def clear_widgets_labels(settings_data):
-    settings_data.grid_forget_all()
-
 def select_visualiser(settings_data, visualiser):
-    clear_widgets_labels(settings_data)
-    if visualiser == 'pixelvisualiser.py':
-        settings_data.select_visualiser("pixelvisualiser.py")
-        expand_options(settings_data)
-    elif visualiser == 'turtlevisualiser.py':
-        settings_data.select_visualiser('turtlevisualiser.py')
-        expand_options(settings_data)
-    elif visualiser == 'spiralvisualiser.py':
-        settings_data.select_visualiser('spiralvisualiser.py')
-        expand_options(settings_data)
-    elif visualiser == 'waveformvisualiser.py':
-        settings_data.select_visualiser('waveformvisualiser.py')
-        expand_options(settings_data)
+    settings_data.grid_forget_all()
+    settings_data.select_visualiser(visualiser)
+    expand_options(settings_data)
 
 def expand_options(settings_data):
     if settings_data.selection == "test":
@@ -152,24 +139,39 @@ def expand_options(settings_data):
         for _ in range(0, len(settings_data.waveform_visualiser_options.widgets)):
             settings_data.waveform_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
 
-    elif settings_data.selection == "waveformvisualiser.py":
-        pass
     elif settings_data.selection == "sandpilevisualiser.py":
-        pass
+        for label in settings_data.sandpile_visualiser_options.labels:
+            if label != None:
+                label.grid(column=2, row=settings_data.sandpile_visualiser_options.labels.index(label))
+            else: pass
+
+        for _ in range(0, len(settings_data.sandpile_visualiser_options.widgets)):
+            settings_data.sandpile_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+
     elif settings_data.selection == "webvisualiser.py":
-        pass
+        for label in settings_data.web_visualiser_options.labels:
+            if label != None:
+                label.grid(column=2, row=settings_data.web_visualiser_options.labels.index(label))
+            else: pass
+
+        for _ in range(0, len(settings_data.web_visualiser_options.widgets)):
+            settings_data.web_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+    
     elif settings_data.selection == "orbitalvisualisation.py":
-        pass
+        for label in settings_data.orbital_visualiser_options.labels:
+            if label != None:
+                label.grid(column=2, row=settings_data.orbital_visualiser_options.labels.index(label))
+            else: pass
+
+        for _ in range(0, len(settings_data.orbital_visualiser_options.widgets)):
+            settings_data.orbital_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
     
     WINDOW.update()
 
-def run_pixel_visualiser(settings_data):
+def run_pixel_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
         WINDOW.destroy()
-    print("Running pixel visualiser with settings: ")
-    print(settings_data)
-    
-    pixel_visualiser = PixelVisualiser(settings_data)
+    pixel_visualiser = PixelVisualiser(settings)
 
 def run_turtle_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
@@ -186,20 +188,20 @@ def run_waveform_visualiser(settings):
         WINDOW.destroy()
     waveform_visualiser = WaveformVisualiser(settings)
 
-def run_sandpile_visualiser():
+def run_sandpile_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
         WINDOW.destroy()
-    sandpile_visualiser = SandpileVisualiser()
+    sandpile_visualiser = SandpileVisualiser(settings)
 
-def run_web_visualiser():
+def run_web_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
         WINDOW.destroy()
-    web_visualiser = WebVisualiser()
+    web_visualiser = WebVisualiser(settings)
 
-def run_orbital_visualiser():
+def run_orbital_visualiser(settings):
     if not KEEP_ROOT_WINDOW:
         WINDOW.destroy()
-    orbital_visualiser = OrbitalVisualisation()
+    orbital_visualiser = OrbitalVisualisation(settings)
 
 def start(settings_data):
     if settings_data.selection == "test":
@@ -224,6 +226,18 @@ def start(settings_data):
     elif settings_data.selection == 'waveformvisualiser.py':
         settings_data.waveform_visualiser_options.settings = generate_waveform_visualiser_settings(settings_data.waveform_visualiser_options)
         run_waveform_visualiser(settings_data.waveform_visualiser_options.settings)
+
+    elif settings_data.selection == 'sandpilevisualiser.py':
+        settings_data.sandpile_visualiser_options.settings = generate_sandpile_visualiser_settings(settings_data.sandpile_visualiser_options)
+        run_sandpile_visualiser(settings_data.sandpile_visualiser_options.settings)
+
+    elif settings_data.selection == 'webvisualiser.py':
+        settings_data.web_visualiser_options.settings = generate_web_visualiser_settings(settings_data.web_visualiser_options)
+        run_web_visualiser(settings_data.web_visualiser_options.settings)
+
+    elif settings_data.selection == 'orbitalvisualisation.py':
+        settings_data.orbital_visualiser_options.settings = generate_orbital_visualiser_settings(settings_data.orbital_visualiser_options)
+        run_orbital_visualiser(settings_data.orbital_visualiser_options.settings)
 
 def generate_pixel_visualiser_settings(settings_data):
     if settings_data.chk_animate.instate(['selected']):
@@ -389,5 +403,61 @@ def generate_waveform_visualiser_settings(settings_data):
     
     return settings_data.settings
 
+def generate_sandpile_visualiser_settings(settings_data):
+    settings = settings_data.settings
+    
+    if settings_data.combobox_bg_colour.get() != '':
+        settings['bg colour'] = settings_data.combobox_bg_colour.get().lower()
+    else: settings['bg colour'] = 'white'
+
+    if settings_data.combobox_colour_scheme.get() != '':
+        settings['colour scheme'] = settings_data.combobox_colour_scheme.get().lower()
+    else: settings['colour scheme'] = 'sandyboi'
+
+    if settings_data.combobox_update_interval.get() != '':
+        settings['update interval'] = int(settings_data.combobox_update_interval.get())
+    else: settings['update interval'] = 20
+
+    return settings_data.settings
+
+def generate_web_visualiser_settings(settings_data):
+    settings = settings_data.settings
+
+    if settings_data.textield_target.get() != '':
+        settings['target'] = int(settings_data.textield_target.get())
+    else: settings['target'] = 10000
+
+    if settings_data.textfield_update_interval.get() != None:
+        settings['update interval'] = int(settings_data.textfield_update_interval.get())
+    else: settings['update interval'] = 1000
+
+    if settings_data.combobox_random_offset_upper_bound.get() != '':
+        settings['random offset upper bound'] = int(settings_data.combobox_random_offset_upper_bound.get())
+    else: settings['random offset upper bound'] = 20
+
+    if settings_data.combobox_random_offset_lower_bound.get() != '':
+        settings['random offset lower bound'] = int(settings_data.combobox_random_offset_lower_bound.get())
+    else: settings['random offset lower bound'] = 0
+
+    if settings_data.combobox_colour_palette.get() != '':
+        settings['colour palette'] = settings_data.combobox_colour_palette.get().lower()
+    else: settings['colour palette'] = settings_data.combobox_colour_palette.get().lower()
+
+    if settings_data.chk_use_random_colours.instate(['selected']):
+        settings['use random colours'] = True
+    else: settings['use random colours'] = False
+
+    return settings_data.settings
+
+def generate_orbital_visualiser_settings(settings_data):
+    settings = settings_data.settings
+
+    if settings_data.combobox_line_opacity.get() != None:
+        settings['line opacity'] = int(settings_data.combobox_line_opacity.get())
+    else: settings['line opacity'] = 70
+
+    return settings_data.settings
+
 if __name__ == '__main__':
     entry_point()
+    
