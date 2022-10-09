@@ -10,6 +10,8 @@ from spiralvisualiser import SpiralVisualiser
 from turtlevisualiser import TurtleVisualiser
 from waveformvisualiser import WaveformVisualiser
 from webvisualiser import WebVisualiser
+import pathlib
+import os
 
 KEEP_ROOT_WINDOW = True
 WINDOW = tkinter.Tk()
@@ -442,5 +444,25 @@ def generate_orbital_visualiser_settings(settings_data):
 
     return settings_data.settings
 
+def makedirs():
+    dirlist = [
+        'outputs',
+        'outputs/Orbit',
+        'outputs/Pixel',
+        'outputs/Sandpile',
+        'outputs/Spiral',
+        'outputs/Turtle',
+        'outputs/Waveform',
+        'outputs/Web',
+    ]
+    
+    abspath = os.path.dirname(__file__)
+
+    for directory in dirlist:
+        absdir = os.path.join(abspath, directory)
+        if not os.path.exists(absdir):
+            os.makedirs(absdir)
+
 if __name__ == '__main__':
+    makedirs()
     entry_point()
