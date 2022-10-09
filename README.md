@@ -1,17 +1,5 @@
 # PiVisualisations
 
-A project I created in August 2022 to visualise millions of digits of Pi. This is a work in progress!
-    
-Major entry point overhaul:
-        
-Allow the user to select a visualiser and see a preview image of it as well as choose the settings they want to use
-
-Just pass them in as commands and use tkinter to get them from the user. This will require checking for empty fields.
-    
-General overhaul to allow the user to choose to save a screenshot of the canvas they create.
-    
-General bugfixes incl image quality, window sizes etc.
-
 General Info:
 This is a project I started in August 2022 in order to visualise millions of digits of Pi.
 
@@ -20,9 +8,11 @@ In Python,
 Pygame,
 Tkinter,
 
-
 Colour Schemes:
 Many of the visualisers below can make use of the various colour scheme dictionary files.
+
+Users can choose a visualiser and choose their own settings using the settings GUI:
+<img width="812" alt="image" src="https://user-images.githubusercontent.com/113452530/194759621-30d25c26-8a90-4346-ab74-21f9e8b97fac.png">
 
 The hare.py class:
 I found that python's inbuilt Turtle was slow and didn't offer the level of control/customisation I needed, so I built a faster version called the Hare. The Hare allows for more granularity over skipping frames, drawing speeds, and is much faster than the Turtle.
