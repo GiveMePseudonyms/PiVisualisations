@@ -1,35 +1,33 @@
 import pygame
-from sandpile_colour_schemes import colour_schemes as cs
+import sandpile_colour_schemes
 
-GLOBAL_window_w = 1200
-GLOBAL_window_h = 1200
-
-GLOBAL_bg_colour = (21, 24, 33)
-
-GLOBAL_colour_scheme = "sandyboi"
-
+WINDOW_W = 1200
+WINDOW_H = 1200
 
 class SandpileVisualiser:
-    def __init__(self):
+    def __init__(self, settings):
 
         pygame.init()
 
+        self.settings = settings
+        self.colour_scheme = sandpile_colour_schemes.colour_schemes[self.settings['colour scheme']]
+        self.bg_colour = sandpile_colour_schemes.bg_colours[self.settings['bg colour']]
+        self.update_interval = self.settings['update interval']
+
         pygame.display.set_caption("Sandpile Visualiser")
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
         self.centre_weight = 31415
         self.pixel_size = 6
 
         self.draw_call_counter = 0
 
-        self.rows = int(GLOBAL_window_h / self.pixel_size)
-        self.cols = int(GLOBAL_window_w / self.pixel_size)
+        self.rows = int(WINDOW_H / self.pixel_size)
+        self.cols = int(WINDOW_W / self.pixel_size)
 
         # make a 2d array for the grid of window size, all containing a 0
         self.grid = [[0] * self.cols for _ in range(self.rows)]
-
-        self.colour_scheme = cs[GLOBAL_colour_scheme]
 
         self.main_loop()
 
@@ -47,7 +45,7 @@ class SandpileVisualiser:
         print("Finished setting up. Starting simulation.")
 
         counter = 0
-        ct = 20
+        count_target = self.update_interval
 
         while True:
             for x in range(self.rows):
@@ -61,7 +59,7 @@ class SandpileVisualiser:
                 break
 
             counter += 1
-            if counter == ct and running:
+            if counter == count_target and running:
                 counter = 0
                 self.update_display()
 
@@ -69,6 +67,7 @@ class SandpileVisualiser:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     running = False
 
+        self.update_display()
         print("Finished or interrupted, saving screenshot!")
         pygame.image.save(self.screen, "sandpile screenshot.png")
 
@@ -78,6 +77,7 @@ class SandpileVisualiser:
 
     def draw_grid(self):
         # I can speed this up using a dispatch dictionary (dict of functions which will be called in each case)
+        # I could also use numpy to vectorise the arrays
         for x in range(self.rows):
             for y in range(self.cols):
                 if self.grid[x][y] > 3:
@@ -97,7 +97,7 @@ class SandpileVisualiser:
                                      pygame.Rect(x * self.pixel_size, y * self.pixel_size, self.pixel_size,
                                                  self.pixel_size))
                 elif self.grid[x][y] == 0:
-                    pygame.draw.rect(self.screen, GLOBAL_bg_colour,
+                    pygame.draw.rect(self.screen, sandpile_colour_schemes.bg_colours[self.settings['bg colour']],
                                      pygame.Rect(x * self.pixel_size, y * self.pixel_size, self.pixel_size,
                                                  self.pixel_size))
         self.draw_call_counter += 1

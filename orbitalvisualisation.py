@@ -5,11 +5,10 @@ import pygame
 from orbitalbody import OrbitalBody
 import turtle_colour_palette_dictionaries
 
-GLOBAL_window_w = 1200
-GLOBAL_window_h = 1200
+WINDOW_W = 1200
+WINDOW_H = 1200
 
-GL_line_transparency = 70
-
+LINE_TRANSPARENCY = 70
 
 def update_screen():
     pygame.display.flip()
@@ -20,8 +19,8 @@ class OrbitalVisualisation:
         pygame.init()
 
         pygame.display.set_caption("Orbital Visualiser")
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
         self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
 
@@ -33,14 +32,14 @@ class OrbitalVisualisation:
         self.main_loop()
 
     def main_loop(self):
-        centre_x = GLOBAL_window_w / 2
-        centre_y = GLOBAL_window_h / 2
+        centre_x = WINDOW_W / 2
+        centre_y = WINDOW_H / 2
 
-        body_surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        body_surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        line_surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        line_surface = pygame.Surface((WINDOW_W, WINDOW_H))
         line_surface.set_colorkey((0, 0, 0))
-        line_surface.set_alpha(GL_line_transparency)
+        line_surface.set_alpha(LINE_TRANSPARENCY)
 
         sun = OrbitalBody(50, (255, 255, 0), centre_x, centre_y, body_surface, 0)
         sun.draw_self()
@@ -63,6 +62,8 @@ class OrbitalVisualisation:
         index = 1
 
         line_interval = 1
+
+        #just a throwaway var used to count iterations
         counter = 0
 
         running = True

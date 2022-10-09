@@ -5,16 +5,13 @@ Make a "general settings" dict in separate py file so i can have settings held o
 
 Make function to scale the created image to fit into the window
 (maybe look at how this worked for 4k images from the pixel version
-    Done-ish. Might be a better way than brute force but cba. It works.
+    Done-ish. Will look for a better way to handle this.
     COULD track the cartesian of each line, then add some padding and make a surface to match the size, then scale it.
         this would also help with centring the image.
 
 Implement transparency for new version (needs to make a new surface per line since
-transparency is done per surface, shouldn't be too hard
-    Still working on this. Making a new surface for each line creates bullshit lag, ignore for now.
-
-Reimplement screenshot feature. Can it be saved as PDF to preserve quality?
-    done, png works, scaled up canvas size to get better resolution, see scaling notes above.
+transparency is done per surface, shouldn't be too hard)
+    Still working on this. Making a new surface for each line creates lag, ignore for now.
 """
 
 import pygame.time
@@ -29,39 +26,39 @@ import cProfile
 
 import utils
 
-GLOBAL_window_width = 800
-GLOBAL_window_height = 800
+WINDOW_W = 800
+WINDOW_H = 800
 
-GLOBAL_wait_until_done = True
-GLOBAL_frame_skip_interval = 10000
+WAIT_UNTIL_DONE = True #never implemented, remove from settings options?
+FRAME_SKIP_INTERVAL = 10000 #''
 
-GLOBAL_target = 1000000
+# TARGET = 1000000
 
-GLOBAL_move_distance = 0.8
+# MOVE_DISTANCE = 0.8
 
-GLOBAL_output_filename = "screenshot"
+OUTPUT_FILENAME = "screenshot" #never implemented, remove
 
-GLOBAL_digit_is_colour = False
-GLOBAL_digit_palette = "starfield"
+# DIGIT_IS_COLOUR = False
+# DIGIT_COLOUR_PALETTE = "starfield"
 
-GLOBAL_colour_cycling = True
-GLOBAL_colour_cycling_palette = "cy cherry blossom"
-GLOBAL_color_change_offset = 0.001
+# self.settings['cycle colours'] = True
+# self.settings['cycle palette'] = "cy cherry blossom"
+# self.settings['cycle change rate'] = 0.001
 
-GLOBAL_static_colours = False
-GLOBAL_palette = "blue autumn"
+# self.settings['static colours'] = False
+# self.settings['palette'] = "blue autumn"
 
-GLOBAL_add_randomness_to_colour = True
+# self.settings['add randomness to colour'] = True
 
-GLOBAL_bg_colour = "space black"
+# self.settings['bg colour'] = "space black"
 
-GLOBAL_digit_is_pen_size = False
-GLOBAL_digit_is_pen_size_scale_factor = 1
+# self.settings['digit is pen size'] = False
+# self.settings['digit pen size scale factor'] = 1
 
-GLOBAL_pen_size = 0.1
-GLOBAL_transparency = 0
+# self.settings['pen size'] = 0.1
+TRANSPARENCY = 0
 
-angle_dictionary = {
+ANGLE_DICTIONARY = {
     "0": 36,
     "1": 72,
     "2": 108,
@@ -76,22 +73,23 @@ angle_dictionary = {
 
 
 class TurtleVisualiser:
-    def __init__(self):
+    def __init__(self, settings):
+        self.settings = settings
         self.clock = pygame.time.Clock()
-        self.hare = hare.Hare(GLOBAL_target)
+        self.hare = hare.Hare(self.settings['target'])
         self.main_loop()
 
     def main_loop(self):
         # pr = cProfile.Profile()
 
         self.hare.move_to(2050, 2050)
-        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[GLOBAL_bg_colour])
+        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
         self.hare.line_colour = (0, 0, 0)
-        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[GLOBAL_bg_colour])
-        self.hare.line_width = GLOBAL_pen_size
+        self.hare.fill_screen(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
+        self.hare.line_width = self.settings['pen size']
 
-        if GLOBAL_colour_cycling:
-            colour_palette = turtle_colour_palette_dictionaries.palettes_dictionary[GLOBAL_colour_cycling_palette]
+        if self.settings['cycle colours']:
+            colour_palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['cycle palette']]
             r = colour_palette["r"]
             g = colour_palette["g"]
             b = colour_palette["b"]
@@ -114,25 +112,25 @@ class TurtleVisualiser:
         number_filter = filter(str.isdigit, pi_string)
         pi_string = "".join(number_filter)
 
-        if GLOBAL_digit_is_colour:
-            palette = turtle_colour_palette_dictionaries.palettes_dictionary[GLOBAL_digit_palette]
+        if self.settings['digit is colour']:
+            palette = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']]
 
-        self.hare.trsurface.set_alpha(GLOBAL_transparency)
+        self.hare.trsurface.set_alpha(TRANSPARENCY)
 
         start_time = t.time()
         for digit in pi_string:
 
-            if counter >= GLOBAL_target:
+            if counter >= self.settings['target']:
                 break
 
-            if GLOBAL_digit_is_colour:
+            if self.settings['digit is colour']:
                 self.hare.line_colour = palette[digit]
 
-            if GLOBAL_digit_is_pen_size:
-                self.hare.line_width = int(digit) * GLOBAL_digit_is_pen_size_scale_factor
+            if self.settings['digit is pen size']:
+                self.hare.line_width = int(digit) * self.settings['digit pen size scale factor']
 
-            if GLOBAL_colour_cycling and not GLOBAL_static_colours:
-                if not GLOBAL_digit_is_colour:
+            if self.settings['cycle colours'] and not self.settings['static colours']:
+                if not self.settings['digit is colour']:
                     if r >= 255:
                         r_sign = "negative"
                     elif r <= 0:
@@ -149,34 +147,34 @@ class TurtleVisualiser:
                         b_sign = "positive"
 
                     if r_sign == "positive":
-                        r += GLOBAL_color_change_offset
+                        r += self.settings['cycle change rate']
                     else:
-                        r -= GLOBAL_color_change_offset
+                        r -= self.settings['cycle change rate']
 
                     if g_sign == "positive":
-                        g += GLOBAL_color_change_offset
+                        g += self.settings['cycle change rate']
                     else:
-                        g -= GLOBAL_color_change_offset
+                        g -= self.settings['cycle change rate']
 
                     if b_sign == "positive":
-                        b += GLOBAL_color_change_offset
+                        b += self.settings['cycle change rate']
                     else:
-                        b -= GLOBAL_color_change_offset
+                        b -= self.settings['cycle change rate']
 
                     self.hare.line_colour = (r, g, b)
 
-            angle = angle_dictionary[digit]
+            angle = ANGLE_DICTIONARY[digit]
 
             p1 = self.hare.position
-            p2 = self.hare.calculate_p2(p1, angle, GLOBAL_move_distance)
-            if not GLOBAL_digit_is_pen_size:
-                self.hare.draw_aaline(p1, p2, GLOBAL_transparency)
+            p2 = self.hare.calculate_p2(p1, angle, self.settings['move distance'])
+            if not self.settings['digit is pen size']:
+                self.hare.draw_aaline(p1, p2, TRANSPARENCY)
             else:
-                self.hare.draw_line(p1, p2, GLOBAL_transparency)
+                self.hare.draw_line(p1, p2, TRANSPARENCY)
 
             counter += 1
 
-        if GLOBAL_transparency != 0:
+        if TRANSPARENCY != 0:
             self.hare.update_screen()
         else:
             self.hare.blit_tr_surface()
@@ -186,7 +184,7 @@ class TurtleVisualiser:
         finish_time = t.time()
         elapsed = (finish_time - start_time)
         elapsed = utils.round_to(elapsed, "2")
-        print(f"{GLOBAL_target} lines drawn in {elapsed} seconds")
+        print(f"{self.settings['target']} lines drawn in {elapsed} seconds")
 
         print("Finished. Saving image")
         pygame.image.save(self.hare.surface, "turtle screenshot.png")

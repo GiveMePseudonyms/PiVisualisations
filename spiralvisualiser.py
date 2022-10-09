@@ -5,27 +5,23 @@ import random
 
 import turtle_colour_palette_dictionaries
 
-GLOBAL_window_w = 1300
-GLOBAL_window_h = 1300
+WINDOW_W = 1000
+WINDOW_H = 1000
 
-GLOBAL_offset_increment = 0.5
-
-GLOBAL_screen_centre = (GLOBAL_window_w / 2, GLOBAL_window_h / 2)
-
+SCREEN_CENTRE = (WINDOW_W / 2, WINDOW_H / 2)
 
 def update_screen():
     pygame.display.flip()
 
-
 class SpiralVisualiser:
-
-    def __init__(self):
+    def __init__(self, settings):
         pygame.init()
+        self.settings = settings
 
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
+        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours[settings['bg colour']])
 
         self.main_loop()
 
@@ -45,7 +41,7 @@ class SpiralVisualiser:
         size = 1
         counter = 0
         target = 10
-        dist_off = 0.000002
+        dist_offset = 0.000002
         running = True
 
         for digit in pi_string:
@@ -59,17 +55,17 @@ class SpiralVisualiser:
             x = distance * math.sin(angle)
             y = distance * math.cos(angle)
 
-            target_x = x + GLOBAL_window_w / 2
-            target_y = y + GLOBAL_window_h / 2
+            target_x = x + WINDOW_W / 2
+            target_y = y + WINDOW_H / 2
             coord = (target_x, target_y)
 
-            colour = turtle_colour_palette_dictionaries.starfield[digit]
+            colour = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
 
             pygame.draw.circle(self.screen, colour, coord, size, size)
 
             angle += 0.1168
-            distance += 0.1168 + dist_off
-            dist_off += int(digit)/1000000
+            distance += 0.1168 + dist_offset
+            dist_offset += int(digit)/1000000
             if counter == target:
                 pygame.display.flip()
                 counter = 0

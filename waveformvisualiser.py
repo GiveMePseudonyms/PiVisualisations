@@ -3,25 +3,24 @@ import turtle_colour_palette_dictionaries
 import math
 import perlin
 
-GLOBAL_window_w = 1200
-GLOBAL_window_h = 1200
-
+WINDOW_W = 1200
+WINDOW_H = 1200
 
 def update_screen():
     pygame.display.flip()
 
-
 class WaveformVisualiser:
 
-    def __init__(self):
-
+    def __init__(self, settings):
         pygame.init()
 
-        pygame.display.set_caption("Waveform Visualiser")
-        self.screen = pygame.display.set_mode((GLOBAL_window_w, GLOBAL_window_h))
-        self.surface = pygame.Surface((GLOBAL_window_w, GLOBAL_window_h))
+        self.settings = settings
 
-        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours["space black"])
+        pygame.display.set_caption("Waveform Visualiser")
+        self.screen = pygame.display.set_mode((WINDOW_W, WINDOW_H))
+        self.surface = pygame.Surface((WINDOW_W, WINDOW_H))
+
+        self.screen.fill(turtle_colour_palette_dictionaries.bg_colours[self.settings['bg colour']])
 
         self.offset = 15
         self.edge_margin = 20
@@ -29,7 +28,6 @@ class WaveformVisualiser:
         self.main_loop()
 
     def main_loop(self):
-
         # get digits from text file
         with open("10milliondigitsofpi.txt") as f:
             pi_string = f.read()
@@ -60,9 +58,10 @@ class WaveformVisualiser:
             if not running:
                 break
 
-            colour = turtle_colour_palette_dictionaries.starfield[digit]
+            colour = turtle_colour_palette_dictionaries.palettes_dictionary[self.settings['digit colour palette']][digit]
+
             y = math.cos(int(digit)) * 3
-            if x >= (GLOBAL_window_w - self.edge_margin):
+            if x >= (WINDOW_W - self.edge_margin):
                 x = self.edge_margin
                 y_offset += self.offset
             pygame.draw.circle(self.screen, colour, (x, y + y_offset), 2, 2)
