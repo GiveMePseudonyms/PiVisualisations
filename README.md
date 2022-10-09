@@ -6,7 +6,7 @@ This is a project I started in August 2022 in order to visualise millions of dig
 Users can choose a visualiser and choose their own settings using the settings GUI:
 <img width="600" height="600" alt="image" src="https://user-images.githubusercontent.com/113452530/194759621-30d25c26-8a90-4346-ab74-21f9e8b97fac.png">
 
-### The hare.py class"
+### The hare.py class
 I found that python's inbuilt Turtle was slow and didn't offer the level of control/customisation I needed, so I built a faster version called the Hare. The Hare allows for more granularity over skipping frames, drawing speeds, and is much faster than the Turtle.
 
 ### The Orbital Visualiser:
