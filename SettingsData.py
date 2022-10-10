@@ -211,7 +211,7 @@ class SettingsData:
 
             self.chk_digit_is_pen_size = ttk.Checkbutton(WINDOW, text='Digit is pen size')
             
-            self.lbl_combobox_digit_is_pen_size_scale_factor = ttk.Label(WINDOW, text='Digit is pen size scaling factor')
+            self.lbl_combobox_digit_is_pen_size_scale_factor = ttk.Label(WINDOW, text='Pen size scaling factor')
             self.combobox_digit_is_pen_size_scale_factor = ttk.Combobox(WINDOW, state='readonly')
             self.combobox_digit_is_pen_size_scale_factor['values'] = ['0.5', '1', '1.5']
 

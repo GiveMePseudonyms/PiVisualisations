@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 
 import pygame
 
@@ -10,7 +11,6 @@ from spiralvisualiser import SpiralVisualiser
 from turtlevisualiser import TurtleVisualiser
 from waveformvisualiser import WaveformVisualiser
 from webvisualiser import WebVisualiser
-import pathlib
 import os
 
 KEEP_ROOT_WINDOW = True
@@ -25,8 +25,8 @@ def entry_point():
     button_y_margin = 10
     button_x_margin = 20
 
-    window_height = 700
-    window_width = 700
+    window_height = 280
+    window_width = 250
 
     screen_width = WINDOW.winfo_screenwidth()
     screen_height = WINDOW.winfo_screenheight()
@@ -39,6 +39,7 @@ def entry_point():
         "fontsize": 16,
         "bg": "grey",
         "specialbg": "blue",
+        'padx' : 5,
     }
 
     font = "Helvetica"
@@ -51,39 +52,50 @@ def entry_point():
 
     btn_launch_pixel_visualiser = tkinter.Button(WINDOW, text="Pixel Visualiser", bg=button_settings["bg"],
                                                  font=(button_settings["font"], button_settings["fontsize"]), 
-                                                 command=lambda: select_visualiser(settings_data, 'pixelvisualiser.py'))
+                                                 command=lambda: select_visualiser(settings_data, 'pixelvisualiser.py'),
+                                                 padx=button_settings['padx'])
 
     btn_launch_turtle_visualiser = tkinter.Button(WINDOW, text="Turtle Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=lambda: select_visualiser(settings_data, 'turtlevisualiser.py'))
+                                                  command=lambda: select_visualiser(settings_data, 'turtlevisualiser.py'),
+                                                  padx=button_settings['padx'])
 
     btn_launch_spiral_visualiser = tkinter.Button(WINDOW, text="Spiral Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=lambda: select_visualiser(settings_data, 'spiralvisualiser.py'))
+                                                  command=lambda: select_visualiser(settings_data, 'spiralvisualiser.py'),
+                                                  padx=button_settings['padx'])
 
     btn_launch_waveform_visualiser = tkinter.Button(WINDOW, text="Waveform Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=lambda: select_visualiser(settings_data, 'waveformvisualiser.py'))
+                                                  command=lambda: select_visualiser(settings_data, 'waveformvisualiser.py'),
+                                                  padx=button_settings['padx'])
 
     btn_launch_sandpile_visualiser = tkinter.Button(WINDOW, text="Sandpile Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=lambda: select_visualiser(settings_data, 'sandpilevisualiser.py'))
+                                                  command=lambda: select_visualiser(settings_data, 'sandpilevisualiser.py'),
+                                                  padx=button_settings['padx'])
 
     btn_launch_web_visualiser = tkinter.Button(WINDOW, text="Web Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=lambda: select_visualiser(settings_data, 'webvisualiser.py'))
+                                                  command=lambda: select_visualiser(settings_data, 'webvisualiser.py'),
+                                                  padx=button_settings['padx'])
 
     btn_launch_orbital_visualiser = tkinter.Button(WINDOW, text="Orbital Visualiser", bg=button_settings["bg"],
                                                   font=(button_settings["font"], button_settings["fontsize"]), 
-                                                  command=lambda: select_visualiser(settings_data, 'orbitalvisualisation.py'))
+                                                  command=lambda: select_visualiser(settings_data, 'orbitalvisualisation.py'),
+                                                  padx=button_settings['padx'])
 
     btn_start = tkinter.Button(WINDOW, text="Start", bg=button_settings["specialbg"], fg=button_settings["specialbg"], 
                                                     font=(button_settings['font'], button_settings['fontsize']), 
-                                                    command=lambda: start(settings_data))
+                                                    command=lambda: start(settings_data),
+                                                    padx=button_settings['padx'])
+
+    btn_help = tkinter.Button(WINDOW, text='Settings help', bg=button_settings['specialbg'], fg='green', font=(button_settings['font'], button_settings['fontsize']),
+                                                    )
 
     btn_list = []
     btn_list.extend([btn_launch_pixel_visualiser, btn_launch_turtle_visualiser, btn_launch_spiral_visualiser, btn_launch_waveform_visualiser,btn_launch_sandpile_visualiser,
-    btn_launch_web_visualiser, btn_launch_orbital_visualiser, btn_start])
+    btn_launch_web_visualiser, btn_launch_orbital_visualiser, btn_start, btn_help])
 
     for _ in range(0, len(btn_list)):
         btn_list[_].grid(column=0, row=_, sticky=tkinter.W, pady=2, padx=30)
@@ -96,68 +108,72 @@ def select_visualiser(settings_data, visualiser):
     expand_options(settings_data)
 
 def expand_options(settings_data):
+    WINDOW.geometry("{}x{}".format(650, 450))
+
+    xpadding = 2
+
     if settings_data.selection == "pixelvisualiser.py":
         for label in settings_data.pixel_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.pixel_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.pixel_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
         
         for _ in range(0, len(settings_data.pixel_visualiser_options.widgets)):
-            settings_data.pixel_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.pixel_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
     
     elif settings_data.selection == "turtlevisualiser.py":
         for label in settings_data.turtle_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.turtle_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.turtle_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
 
         for _ in range(0, len(settings_data.turtle_visualiser_options.widgets)):
-            settings_data.turtle_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.turtle_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
 
     elif settings_data.selection == "spiralvisualiser.py":
         for label in settings_data.spiral_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.spiral_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.spiral_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
         
         for _ in range(0, len(settings_data.spiral_visualiser_options.widgets)):
-            settings_data.spiral_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.spiral_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
 
     elif settings_data.selection == 'waveformvisualiser.py':
         for label in settings_data.waveform_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.waveform_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.waveform_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
 
         for _ in range(0, len(settings_data.waveform_visualiser_options.widgets)):
-            settings_data.waveform_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.waveform_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
 
     elif settings_data.selection == "sandpilevisualiser.py":
         for label in settings_data.sandpile_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.sandpile_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.sandpile_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
 
         for _ in range(0, len(settings_data.sandpile_visualiser_options.widgets)):
-            settings_data.sandpile_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.sandpile_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
 
     elif settings_data.selection == "webvisualiser.py":
         for label in settings_data.web_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.web_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.web_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
 
         for _ in range(0, len(settings_data.web_visualiser_options.widgets)):
-            settings_data.web_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.web_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
     
     elif settings_data.selection == "orbitalvisualisation.py":
         for label in settings_data.orbital_visualiser_options.labels:
             if label != None:
-                label.grid(column=2, row=settings_data.orbital_visualiser_options.labels.index(label))
+                label.grid(column=2, row=settings_data.orbital_visualiser_options.labels.index(label), sticky=tkinter.E)
             else: pass
 
         for _ in range(0, len(settings_data.orbital_visualiser_options.widgets)):
-            settings_data.orbital_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=5)
+            settings_data.orbital_visualiser_options.widgets[_].grid(column=3, row=_, sticky=tkinter.E, padx=xpadding)
     
     WINDOW.update()
 
