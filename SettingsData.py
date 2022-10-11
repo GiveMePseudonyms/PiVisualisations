@@ -1,5 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
+import HelpButtonInfo
+
+def mbox_help(window, prompt):
+    tk.messagebox.Message(master=window)
+    tk.messagebox.showinfo(title='Target', message=HelpButtonInfo.tooltips[prompt], icon='info')
 
 class SettingsData:
     def __init__(self, WINDOW):
@@ -32,6 +37,10 @@ class SettingsData:
             self.orbital_visualiser_options.labels,
         ]
 
+        self.all_hlp_buttons = [
+            self.pixel_visualiser_options.help_buttons,
+        ]
+
         self.selection = ''
 
     def select_visualiser(self, selection):
@@ -46,6 +55,11 @@ class SettingsData:
             for label in labellist:
                 if label != None:
                     label.grid_forget()
+
+        for buttons in self.all_hlp_buttons:
+            for button in buttons:
+                if button != None:
+                    button.grid_forget()
      
         self.WINDOW.update()
     
@@ -75,39 +89,51 @@ class SettingsData:
             
             self.lbl_texfield_target = ttk.Label(WINDOW, text="Target")
             self.textfield_target = ttk.Entry(WINDOW)
+            self.hlp_textfield_target = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'target'))
             
             self.chk_size_equals_digit = ttk.Checkbutton(WINDOW, text="Size = Digit")
+            self.hlp_size_equals_digit = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'pixel size equals digit'))
             
             self.lbl_scale_factor = ttk.Label(WINDOW, text="Scale Factor")
             self.combobox_size_eq_digit_factor = ttk.Combobox(WINDOW, state='readonly')
             self.combobox_size_eq_digit_factor['values'] = ('0.25', '0.5', '0.75', '1')
+            self.hlp_combobox_size_eq_digit_factor = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'pixel size equals digit scaling factor'))
 
             self.chk_scale_size_over_time = ttk.Checkbutton(WINDOW, text='Scale size over time')
+            self.hlp_chk_scale_size_over_time = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'scale size over time'))
 
             self.chk_highlight_123s = ttk.Checkbutton(WINDOW, text="Highlight 123s")
+            self.hlp_chk_highligh_123s = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'highlight 123s'))
 
             self.chk_offset_same_as_point_size = ttk.Checkbutton(WINDOW, text="Offset same as point size")
+            self.hlp_chk_offset_same_as_point_size = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'offset same as point size'))
 
             self.chk_offset_same_as_digit = ttk.Checkbutton(WINDOW, text="Offset same as digit")
+            self.hlp_chk_offset_same_as_digit = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'offset same as digit'))
 
             self.lbl_point_size = ttk.Label(WINDOW, text="Point Size")
             self.combobox_point_size = ttk.Combobox(WINDOW)
             self.combobox_point_size['values'] = ('1', '2','3','4','5','6','7','8','9','10')
             self.combobox_point_size.state(['readonly'])
+            self.hlp_combobox_point_size = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'point size'))
 
             self.lbl_combobox_highlight_colour = ttk.Label(WINDOW, text="Highlight colour")
             self.combobox_highlight_colour = ttk.Combobox(WINDOW, state='readonly')
             self.combobox_highlight_colour['values'] = ('Red', 'Green', 'Blue')
+            self.hlp_combobox_highlight_colour = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'highlight colour'))
 
             self.chk_use_colour_dictionary = ttk.Checkbutton(WINDOW, text='Use colour dictionary')
+            self.hlp_chk_use_colour_dictionary = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'use colour dictionary'))
 
             self.lbl_combobox_bg_colour = ttk.Label(WINDOW, text="Background Colour")
             self.combobox_bg_colour = ttk.Combobox(WINDOW, state='readonly')
             self.combobox_bg_colour['values'] = ('Black', 'White', 'Space Black')
+            self.hlp_combobox_bg_colour = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'background colour'))
 
             self.lbl_combobox_point_colour = ttk.Label(WINDOW, text="Point Colour")
             self.combobox_point_colour = ttk.Combobox(WINDOW, state='readonly')
             self.combobox_point_colour['values'] = ('Organic', 'Starfield')
+            self.hlp_combobox_point_colour = tk.Button(WINDOW, text='?', command=lambda: mbox_help(WINDOW, 'point colour'))
 
             self.widgets = []
             self.widgets.extend([
@@ -140,6 +166,22 @@ class SettingsData:
                 None,
                 self.lbl_combobox_bg_colour,
                 self.lbl_combobox_point_colour
+            ]
+
+            self.help_buttons = [
+                None,
+                self.hlp_textfield_target,
+                self.hlp_size_equals_digit,
+                self.hlp_combobox_size_eq_digit_factor,
+                self.hlp_chk_scale_size_over_time,
+                self.hlp_chk_highligh_123s,
+                self.hlp_chk_offset_same_as_point_size,
+                self.hlp_chk_offset_same_as_digit,
+                self.hlp_combobox_point_size,
+                self.hlp_combobox_highlight_colour,
+                self.hlp_chk_use_colour_dictionary,
+                self.hlp_combobox_bg_colour,
+                self.hlp_combobox_point_colour,
             ]
 
     class TurtleVisualiserOptions:
@@ -253,6 +295,10 @@ class SettingsData:
                 None,
                 self.lbl_combobox_digit_is_pen_size_scale_factor
             ]
+
+            self.help_buttons = [
+                None
+            ]
     
     class SpiralVisualiserOptions:
         def __init__(self, WINDOW):
@@ -286,6 +332,10 @@ class SettingsData:
                 self.lbl_combobox_digit_colour_palette,
             ]
 
+            self.help_buttons = [
+                None
+            ]
+
     class WaveformVisualiserOptions:
         def __init__(self, WINDOW):
             self.settings = {
@@ -309,6 +359,10 @@ class SettingsData:
             self.labels = [
                 self.lbl_combobox_bg_colour,
                 self.lbl_combobox_digit_colour_palette,
+            ]
+
+            self.help_buttons = [
+                None
             ]
 
     class SandPileVisualiserOptions:
@@ -341,6 +395,10 @@ class SettingsData:
                 self.lbl_combobox_bg_colour,
                 self.lbl_combobox_colour_scheme,
                 self.lbl_combobox_update_interval,
+            ]
+
+            self.help_buttons = [
+                None
             ]
 
     class WebVisualiserOptions:
@@ -392,6 +450,10 @@ class SettingsData:
                 None,
             ]
 
+            self.help_buttons = [
+                None
+            ]
+
     class OrbitalVisualiserOptions:
         def __init__(self, WINDOW):
             self.settings = {
@@ -408,4 +470,8 @@ class SettingsData:
 
             self.labels = [
                 self.lbl_combobox_line_opacity,
+            ]
+
+            self.help_buttons = [
+                None
             ]
