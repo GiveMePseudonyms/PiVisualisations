@@ -4,7 +4,7 @@
 This is a project I started in August 2022 in order to visualise millions of digits of Pi.
 
 Users can choose a visualiser and choose their own settings using the settings GUI:
-<img width="700" height="600" alt="image" src="https://user-images.githubusercontent.com/113452530/194897369-f03f3398-d548-487a-b89f-b93f052b9d45.png">
+<img width="700" height="600" alt="image" src="https://user-images.githubusercontent.com/113452530/195142695-399f3b74-60d0-4e88-a214-fca69a915e72.png">
 
 ### The hare.py class
 I found that python's inbuilt Turtle was slow and didn't offer the level of control/customisation I needed, so I built a faster version called the Hare. The Hare allows for more granularity over skipping frames, drawing speeds, and is much faster than the Turtle.
