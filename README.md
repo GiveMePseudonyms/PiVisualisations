@@ -1,3 +1,5 @@
+# This is a work in progress and still contains various bugs and inefficiencies.
+
 # PiVisualisations
 
 ## General Info:
